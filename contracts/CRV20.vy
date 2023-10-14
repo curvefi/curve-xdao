@@ -1,4 +1,4 @@
-# @version 0.3.9
+# @version 0.3.10
 """
 @title Curve DAO Token (Cross-Chain Edition)
 @author Curve Finance
