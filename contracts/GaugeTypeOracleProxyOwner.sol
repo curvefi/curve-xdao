@@ -102,8 +102,6 @@ contract GaugeTypeOracleProxyOwner {
     }
 
     function accept_transfer_ownership(address _target) external {
-        require(msg.sender == owner);
-
         Ownable(_target).accept_transfer_ownership();
     }
 
