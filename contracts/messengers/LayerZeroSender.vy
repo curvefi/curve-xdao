@@ -30,11 +30,12 @@ event TransferOwnership:
     owner: indexed(address)
 
 
+LZ_ENDPOINT: public(constant(address)) = 0x66A71Dcef29A0fFBDBE3c6a460a3B5BC225Cd675
+
+
 ENCODED_DESTINATION: immutable(Bytes[40])
 
-DESTINATION: public(immutable(address))
 LZ_CHAIN_ID: public(immutable(uint16))
-LZ_ENDPOINT: public(immutable(address))
 
 
 gas_limit: public(uint256)
@@ -44,9 +45,7 @@ future_owner: public(address)
 
 
 @external
-def __init__(
-    _destination: address, _gas_limit: uint256, _lz_chain_id: uint16, _lz_endpoint: address
-):
+def __init__(_gas_limit: uint256, _lz_chain_id: uint16):
     self.gas_limit = _gas_limit
     log SetGasLimit(_gas_limit)
 
@@ -54,13 +53,11 @@ def __init__(
     log TransferOwnership(msg.sender)
 
     ENCODED_DESTINATION = concat(
-        slice(convert(_destination, bytes32), 12, 20),
-        slice(convert(_destination, bytes32), 12, 20)
+        slice(convert(self, bytes32), 12, 20),
+        slice(convert(self, bytes32), 12, 20)
     )
 
-    DESTINATION = _destination
     LZ_CHAIN_ID = _lz_chain_id
-    LZ_ENDPOINT = _lz_endpoint
 
 
 @payable
