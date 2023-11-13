@@ -1,6 +1,6 @@
 # @version 0.3.10
 """
-@title Layer Zero Bridge (Ethereum Version)
+@title Layer Zero Block Hash Receiver
 @license MIT
 @author Curve Finance
 """
