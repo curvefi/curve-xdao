@@ -9,6 +9,12 @@
 - FTM Bridge (LayerZero) - [`0x9c735e617050fA6849462299513633d87FbD3f05`](https://etherscan.io/address/0x9c735e617050fA6849462299513633d87FbD3f05#code)
 - BNB Bridge (LayerZero) - [`0xd4b19642701964c402DFa668F96F294266bC0a86`](https://etherscan.io/address/0xd4b19642701964c402DFa668F96F294266bC0a86#code)
 
+#### Keepers (Block Hash Sender)
+
+- AVAX Keeper (LayerZero) - [`0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b`](https://etherscan.io/address/0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b#code)
+- FTM Keeper (LayerZero) - [`0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f`](https://etherscan.io/address/0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f#code)
+- BSC Keeper (LayerZero) - [`0xD8fFE80628D8e40085aeA6f311E768f39BA2294d`](https://etherscan.io/address/0xD8fFE80628D8e40085aeA6f311E768f39BA2294d#code)
+
 ### AVAX
 
 - ETH Bridge (LayerZero) - [`0xD44eB2061362D28f741Bb3547b1a36aB13A8a582`](https://snowtrace.io/address/0xD44eB2061362D28f741Bb3547b1a36aB13A8a582#code)
