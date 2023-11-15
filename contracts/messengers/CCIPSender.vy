@@ -17,6 +17,9 @@ event Transmission:
 event TransferOwnership:
     owner: indexed(address)
 
+event SetGasLimit:
+    gas_limit: uint256
+
 
 # https://github.com/smartcontractkit/ccip/blob/ccip-develop/contracts/src/v0.8/ccip/libraries/Client.sol#L7-L10
 struct EVMTokenAmount:
@@ -60,7 +63,7 @@ def __init__(_destination_chain_selector: uint64):
 def transmit(_block_number: uint256):
     assert block.number - 256 <= _block_number and _block_number < block.number - 64  # dev: invalid block
 
-    destination_chain_selector = DESTINATION_CHAIN_SELECTOR
+    destination_chain_selector: uint64 = DESTINATION_CHAIN_SELECTOR
     message: EVM2AnyMessage = EVM2AnyMessage({
         receiver: _abi_encode(self),
         data: _abi_encode(_block_number, blockhash(_block_number)),
