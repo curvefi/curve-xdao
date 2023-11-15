@@ -3,17 +3,15 @@ import rlp
 from brownie import GaugeTypeOracleProxyOwner, accounts, web3
 from hexbytes import HexBytes
 
-BLOCK_NUMBER = 18160000
+BLOCK_NUMBER = 18578883
 GAUGES = [
-    "0xd662908ADA2Ea1916B3318327A97eB18aD588b5d",
-    "0x7ca5b0a2910B33e9759DC7dDB0413949071D7575",
-    "0xB1F2cdeC61db658F091671F5f199635aEF202CAC",
+    "0xd4b19642701964c402DFa668F96F294266bC0a86",
 ]
 GAUGE_CONTROLLER = "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB"
 
 # avax addys
-SUBMISSION_ACCT = "0xF6154eb3495A38931c5A1554cAfC2B87b7D7d468"
-ORACLE = "0x95ae66886274eA66Fc44B02Da59320e9384bD507"
+GAUGE_TYPE_ORACLE_PROXY = "0xa7DCFa21646A1ce4eC382d3bC72D6CfCDBf3B2D8"
+GAUGE_TYPE_ORACLE = "0x2920b776cB1fE251A243Fe5AfEEE689d4c86808f"
 
 
 # https://github.com/ethereum/go-ethereum/blob/master/core/types/block.go#L69
@@ -72,7 +70,7 @@ def generate_proof():
 
 def submit_proof():
     dev = accounts.load("dev")
-    submitter = GaugeTypeOracleProxyOwner.at(SUBMISSION_ACCT)
+    submitter = GaugeTypeOracleProxyOwner.at(GAUGE_TYPE_ORACLE_PROXY)
 
     with open("header.txt") as f:
         block_header_rlp = f.read()
@@ -80,4 +78,4 @@ def submit_proof():
     with open("proof.txt") as f:
         proof_rlp = f.read()
 
-    submitter.submit(ORACLE, GAUGES, block_header_rlp, proof_rlp, {"from": dev})
+    submitter.submit(GAUGE_TYPE_ORACLE, GAUGES, block_header_rlp, proof_rlp, {"from": dev})
