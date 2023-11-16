@@ -38,6 +38,7 @@ struct EVM2AnyMessage:
     fee_token: address
     extra_args: Bytes[68]
 
+# https://etherscan.io/address/0xd0B5Fc9790a6085b048b8Aa1ED26ca2b3b282CF2#code#F9#L30
 struct EVMExtraArgsV1:
     gas_limit: uint256
     strict: bool
@@ -67,6 +68,9 @@ def __init__(_gas_limit: uint256):
 @payable
 @external
 def transmit(_destination_chain_selector: uint64, _block_number: uint256):
+    """
+    @dev See https://docs.chain.link/ccip/supported-networks/mainnet for chain selectors
+    """
     assert block.number - 256 <= _block_number and _block_number < block.number - 64  # dev: invalid block
 
     message: EVM2AnyMessage = EVM2AnyMessage({
@@ -111,6 +115,8 @@ def set_gas_limit(_gas_limit: uint256):
 def set_receiver(_destination_chain_selector: uint64, _receiver: address):
     """
     @notice Set the receiver for cross chain transactions
+    @param _destination_chain_selector The unique CCIP destination chain selector
+    @param _receiver The address on the destination chain to transmit messages to
     """
     assert msg.sender == self.owner
 
