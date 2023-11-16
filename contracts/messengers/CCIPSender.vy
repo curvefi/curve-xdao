@@ -20,6 +20,10 @@ event TransferOwnership:
 event SetGasLimit:
     gas_limit: uint256
 
+event SetReceiver:
+    destination_chain_selector: indexed(uint64)
+    receiver: address
+
 
 # https://github.com/smartcontractkit/ccip/blob/ccip-develop/contracts/src/v0.8/ccip/libraries/Client.sol#L7-L10
 struct EVMTokenAmount:
@@ -43,8 +47,7 @@ CCIP_ROUTER: public(constant(address)) = 0xE561d5E02207fb5eB32cca20a699E0d8919a1
 EVM_EXTRA_ARGS_V1_TAG: constant(bytes4) = 0x97a657c9
 
 
-DESTINATION_CHAIN_SELECTOR: public(immutable(uint64))
-
+selector_to_receiver: public(HashMap[uint64, address])
 
 gas_limit: public(uint256)
 
@@ -53,40 +56,37 @@ future_owner: public(address)
 
 
 @external
-def __init__(_destination_chain_selector: uint64):
-    self.gas_limit = 500_000
-    log SetGasLimit(500_000)
+def __init__(_gas_limit: uint256):
+    self.gas_limit = _gas_limit
+    log SetGasLimit(_gas_limit)
 
     self.owner = msg.sender
     log TransferOwnership(msg.sender)
 
-    DESTINATION_CHAIN_SELECTOR = _destination_chain_selector
-
 
 @payable
 @external
-def transmit(_block_number: uint256):
+def transmit(_destination_chain_selector: uint64, _block_number: uint256):
     assert block.number - 256 <= _block_number and _block_number < block.number - 64  # dev: invalid block
 
-    destination_chain_selector: uint64 = DESTINATION_CHAIN_SELECTOR
     message: EVM2AnyMessage = EVM2AnyMessage({
-        receiver: _abi_encode(self),
+        receiver: _abi_encode(self.selector_to_receiver[_destination_chain_selector]),
         data: _abi_encode(_block_number, blockhash(_block_number)),
         token_amounts: empty(DynArray[EVMTokenAmount, 1]),
         fee_token: empty(address),
         extra_args: _abi_encode(EVMExtraArgsV1({gas_limit: self.gas_limit, strict: False}), method_id=EVM_EXTRA_ARGS_V1_TAG)
     })
 
-    Router(CCIP_ROUTER).ccipSend(destination_chain_selector, message, value=msg.value)
+    Router(CCIP_ROUTER).ccipSend(_destination_chain_selector, message, value=msg.value)
 
 
 @view
 @external
-def quote() -> uint256:
+def quote(_destination_chain_selector: uint64) -> uint256:
     return Router(CCIP_ROUTER).getFee(
-        DESTINATION_CHAIN_SELECTOR,
+        _destination_chain_selector,
         EVM2AnyMessage({
-            receiver: _abi_encode(self),
+            receiver: _abi_encode(self.selector_to_receiver[_destination_chain_selector]),
             data: _abi_encode(block.number, max_value(uint256)),
             token_amounts: empty(DynArray[EVMTokenAmount, 1]),
             fee_token: empty(address),
@@ -105,6 +105,17 @@ def set_gas_limit(_gas_limit: uint256):
 
     self.gas_limit = _gas_limit
     log SetGasLimit(_gas_limit)
+
+
+@external
+def set_receiver(_destination_chain_selector: uint64, _receiver: address):
+    """
+    @notice Set the receiver for cross chain transactions
+    """
+    assert msg.sender == self.owner
+
+    self.selector_to_receiver[_destination_chain_selector] = _receiver
+    log SetReceiver(_destination_chain_selector, _receiver)
 
 
 @external
