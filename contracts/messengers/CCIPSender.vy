@@ -32,10 +32,15 @@ struct EVM2AnyMessage:
     data: Bytes[64]
     token_amounts: DynArray[EVMTokenAmount, 1]
     fee_token: address
-    extra_args: Bytes[64]
+    extra_args: Bytes[68]
+
+struct EVMExtraArgsV1:
+    gas_limit: uint256
+    strict: bool
 
 
 CCIP_ROUTER: public(constant(address)) = 0xE561d5E02207fb5eB32cca20a699E0d8919a1476
+EVM_EXTRA_ARGS_V1_TAG: constant(bytes4) = 0x97a657c9
 
 
 DESTINATION_CHAIN_SELECTOR: public(immutable(uint64))
@@ -69,14 +74,10 @@ def transmit(_block_number: uint256):
         data: _abi_encode(_block_number, blockhash(_block_number)),
         token_amounts: empty(DynArray[EVMTokenAmount, 1]),
         fee_token: empty(address),
-        extra_args: _abi_encode(self.gas_limit, method_id=b"\x97\xa6\x57\xc9")
+        extra_args: _abi_encode(EVMExtraArgsV1({gas_limit: self.gas_limit, strict: False}), method_id=EVM_EXTRA_ARGS_V1_TAG)
     })
 
-    fee: uint256 = Router(CCIP_ROUTER).getFee(destination_chain_selector, message)
-    Router(CCIP_ROUTER).ccipSend(destination_chain_selector, message, value=fee)
-
-    if msg.value > fee:
-        raw_call(msg.sender, b"", value=msg.value - fee)
+    Router(CCIP_ROUTER).ccipSend(destination_chain_selector, message, value=msg.value)
 
 
 @view
@@ -89,7 +90,7 @@ def quote() -> uint256:
             data: _abi_encode(block.number, max_value(uint256)),
             token_amounts: empty(DynArray[EVMTokenAmount, 1]),
             fee_token: empty(address),
-            extra_args: _abi_encode(self.gas_limit, method_id=b"\x97\xa6\x57\xc9")
+            extra_args: _abi_encode(EVMExtraArgsV1({gas_limit: self.gas_limit, strict: False}), method_id=EVM_EXTRA_ARGS_V1_TAG)
         })
     )
 
