@@ -41,3 +41,11 @@ def ccipReceive(_message: Any2EVMMessage):
         concat(method_id("commit_block_hash(uint256,bytes32)"), _message.data),
         revert_on_failure=False
     )
+
+
+@view
+@external
+def supportsInterface(_interface_id: bytes4) -> bool:
+    if _interface_id == 0xffffffff:
+        return False
+    return True
