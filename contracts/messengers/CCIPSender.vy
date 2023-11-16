@@ -44,7 +44,9 @@ struct EVMExtraArgsV1:
     strict: bool
 
 
-CCIP_ROUTER: public(constant(address)) = 0xE561d5E02207fb5eB32cca20a699E0d8919a1476
+CCIP_ROUTER: public(immutable(address))
+
+
 EVM_EXTRA_ARGS_V1_TAG: constant(bytes4) = 0x97a657c9
 
 
@@ -57,12 +59,14 @@ future_owner: public(address)
 
 
 @external
-def __init__(_gas_limit: uint256):
+def __init__(_ccip_router: address, _gas_limit: uint256):
     self.gas_limit = _gas_limit
     log SetGasLimit(_gas_limit)
 
     self.owner = msg.sender
     log TransferOwnership(msg.sender)
+
+    CCIP_ROUTER = _ccip_router
 
 
 @payable
