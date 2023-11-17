@@ -20,6 +20,9 @@ event TransferOwnership:
 event SetGasLimit:
     gas_limit: uint256
 
+event SetRouter:
+    router: address
+
 event SetReceiver:
     destination_chain_selector: indexed(uint64)
     receiver: address
@@ -44,12 +47,10 @@ struct EVMExtraArgsV1:
     strict: bool
 
 
-CCIP_ROUTER: public(immutable(address))
-
-
 EVM_EXTRA_ARGS_V1_TAG: constant(bytes4) = 0x97a657c9
 
 
+router: public(address)
 selector_to_receiver: public(HashMap[uint64, address])
 
 gas_limit: public(uint256)
@@ -66,7 +67,8 @@ def __init__(_ccip_router: address, _gas_limit: uint256):
     self.owner = msg.sender
     log TransferOwnership(msg.sender)
 
-    CCIP_ROUTER = _ccip_router
+    self.router = _ccip_router
+    log SetRouter(_ccip_router)
 
 
 @payable
@@ -85,13 +87,13 @@ def transmit(_destination_chain_selector: uint64, _block_number: uint256):
         extra_args: _abi_encode(EVMExtraArgsV1({gas_limit: self.gas_limit, strict: False}), method_id=EVM_EXTRA_ARGS_V1_TAG)
     })
 
-    Router(CCIP_ROUTER).ccipSend(_destination_chain_selector, message, value=msg.value)
+    Router(self.router).ccipSend(_destination_chain_selector, message, value=msg.value)
 
 
 @view
 @external
 def quote(_destination_chain_selector: uint64) -> uint256:
-    return Router(CCIP_ROUTER).getFee(
+    return Router(self.router).getFee(
         _destination_chain_selector,
         EVM2AnyMessage({
             receiver: _abi_encode(self.selector_to_receiver[_destination_chain_selector]),
@@ -126,6 +128,18 @@ def set_receiver(_destination_chain_selector: uint64, _receiver: address):
 
     self.selector_to_receiver[_destination_chain_selector] = _receiver
     log SetReceiver(_destination_chain_selector, _receiver)
+
+
+@external
+def set_router(_ccip_router: address):
+    """
+    @notice Set the CCIP router
+    @dev Necessary for any potential upgrades to the router tech
+    """
+    assert msg.sender == self.owner
+
+    self.router = _ccip_router
+    log SetRouter(_ccip_router)
 
 
 @external
