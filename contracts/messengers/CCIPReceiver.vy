@@ -14,7 +14,7 @@ struct Any2EVMMessage:
     source_chain_selector: uint64
     sender: Bytes[32]
     data: Bytes[64]
-    token_amounts: EVMTokenAmount
+    token_amounts: DynArray[EVMTokenAmount, 1]
 
 
 ROOT_SENDER: public(immutable(address))
