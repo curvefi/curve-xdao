@@ -17,15 +17,16 @@ struct Any2EVMMessage:
     token_amounts: EVMTokenAmount
 
 
-ETH_CHAIN_SELECTOR: constant(uint64) = 5009297550715157269
-
-
+ROOT_SENDER: public(immutable(address))
+ROOT_CHAIN_SELECTOR: public(immutable(uint64))
 ORACLE: public(immutable(address))
 CCIP_ROUTER: public(immutable(address))
 
 
 @external
-def __init__(_oracle: address, _ccip_router: address):
+def __init__(_root_sender: address, _root_chain_selector: uint64, _oracle: address, _ccip_router: address):
+    ROOT_SENDER = _root_sender
+    ROOT_CHAIN_SELECTOR = _root_chain_selector
     ORACLE = _oracle
     CCIP_ROUTER = _ccip_router
 
@@ -33,8 +34,8 @@ def __init__(_oracle: address, _ccip_router: address):
 @external
 def ccipReceive(_message: Any2EVMMessage):
     assert msg.sender == CCIP_ROUTER
-    assert _message.source_chain_selector == ETH_CHAIN_SELECTOR
-    assert _abi_decode(_message.sender, address) == self
+    assert _message.source_chain_selector == ROOT_CHAIN_SELECTOR
+    assert _abi_decode(_message.sender, address) == ROOT_SENDER
 
     _: bool = raw_call(
         ORACLE,
