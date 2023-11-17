@@ -14,7 +14,7 @@
 - AVAX Keeper (LayerZero) - [`0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b`](https://etherscan.io/address/0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b#code)
 - FTM Keeper (LayerZero) - [`0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f`](https://etherscan.io/address/0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f#code)
 - BSC Keeper (LayerZero) - [`0xD8fFE80628D8e40085aeA6f311E768f39BA2294d`](https://etherscan.io/address/0xD8fFE80628D8e40085aeA6f311E768f39BA2294d#code)
-- CCIP Keeper - [`0x88478447d91bcAA015C028E83d6eA16CF32809AA`](https://etherscan.io/address/0x88478447d91bcAA015C028E83d6eA16CF32809AA#code)
+- CCIP Keeper - [`0x51a00F38CB1c055EbbBE380D3bA3D27CAE5d9e61`](https://etherscan.io/address/0x51a00F38CB1c055EbbBE380D3bA3D27CAE5d9e61#code)
 
 ### AVAX
 
