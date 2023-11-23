@@ -2,7 +2,7 @@
 pragma solidity 0.8.12;
 
 import {RLPReader} from "hamdiallam/Solidity-RLP@2.0.7/contracts/RLPReader.sol";
-import {ReceiptProofVerifier as Verifier} from "./libs/ReceiptProofVerifier.sol";
+import {ReceiptProofVerifier as Verifier} from "../libs/ReceiptProofVerifier.sol";
 
 interface IBlockHashOracle {
     // a null value signifies block hash has not yet been set
