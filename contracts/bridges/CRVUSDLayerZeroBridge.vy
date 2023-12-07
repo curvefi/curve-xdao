@@ -108,7 +108,7 @@ def bridge(
     _refund_address: address = msg.sender,
     _zro_payment_address: address = empty(address),
     _native_amount: uint256 = 0,
-    _native_receiver: address = empty(address)
+    _native_receiver: address = msg.sender
 ):
     """
     @notice Bridge CRVUSD
