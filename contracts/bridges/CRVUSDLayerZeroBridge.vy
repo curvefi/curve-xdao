@@ -183,7 +183,7 @@ def retry(_nonce: uint64, _timestamp: uint256, _receiver: address, _amount: uint
     """
     assert not self.is_killed  # dev: dead
 
-    assert _timestamp < block.timestamp + self.delay  # dev: too soon
+    assert _timestamp < block.timestamp - self.delay  # dev: too soon
     assert self.delayed[_nonce] == keccak256(
         _abi_encode(_timestamp, _abi_encode(_receiver, _amount))
     )  # dev: incorrect
