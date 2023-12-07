@@ -58,6 +58,7 @@ event TransferOwnership:
     owner: indexed(address)
 
 
+ETH_CRV20: constant(address) = 0xD533a949740bb3306d119CC777fa900bA034cd52
 ISSUANCE_INTERVAL: constant(uint256) = 86400
 
 
@@ -119,7 +120,7 @@ def bridge(
     @notice Bridge CRV
     """
     assert not self.is_killed  # dev: dead
-    assert _amount != 0 and _receiver != empty(address)  # dev: invalid
+    assert _amount != 0 and _receiver not in [empty(address), ETH_CRV20]  # dev: invalid
 
     assert BERC20(CRV20).burnFrom(msg.sender, _amount)
 
@@ -163,7 +164,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     amount: uint256 = empty(uint256)
     receiver, amount = _abi_decode(_payload, (address, uint256))
 
-    if receiver == empty(address) or amount == 0:
+    if receiver in [empty(address), CRV20] or amount == 0:
         # precaution
         return
 

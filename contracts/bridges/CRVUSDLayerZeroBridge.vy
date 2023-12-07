@@ -56,6 +56,7 @@ event TransferOwnership:
     owner: indexed(address)
 
 
+ETH_CRVUSD: constant(address) = 0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E
 ISSUANCE_INTERVAL: constant(uint256) = 86400
 
 
@@ -113,7 +114,7 @@ def bridge(
     @notice Bridge CRVUSD
     """
     assert not self.is_killed  # dev: dead
-    assert _amount != 0 and _receiver != empty(address)  # dev: invalid
+    assert _amount != 0 and _receiver not in [empty(address), ETH_CRVUSD]  # dev: invalid
 
     BMERC20(CRVUSD).burnFrom(msg.sender, _amount)
 
@@ -157,7 +158,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     amount: uint256 = empty(uint256)
     receiver, amount = _abi_decode(_payload, (address, uint256))
 
-    if receiver == empty(address) or amount == 0:
+    if receiver in [empty(address), CRVUSD] or amount == 0:
         # precaution
         return
 
