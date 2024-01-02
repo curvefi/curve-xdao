@@ -1,6 +1,7 @@
 # @version 0.3.10
 """
-@title Curve.Fi USD Stablecoin (Cross-Chain Edition)
+@title Token
+@license MIT
 @author Curve Finance
 """
 
@@ -14,55 +15,56 @@ event Transfer:
     receiver: indexed(address)
     amount: uint256
 
-event TransferOwnership:
-    owner: indexed(address)
+event SetMinter:
+    minter: indexed(address)
 
 
-name: public(constant(String[32])) = "Curve.Fi USD Stablecoin"
-symbol: public(constant(String[8])) = "crvUSD"
-decimals: public(constant(uint8)) = 18
-version: public(constant(String[8])) = "1.0.0"
+EIP712_TYPEHASH: constant(bytes32) = keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)")
+EIP2612_TYPEHASH: constant(bytes32) = keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)")
 
-EIP712_TYPEHASH: constant(bytes32) = keccak256(
-    "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
-)
-EIP2612_TYPEHASH: constant(bytes32) = keccak256(
-    "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
-)
-NAME_HASH: constant(bytes32) = keccak256(name)
-VERSION_HASH: constant(bytes32) = keccak256(version)
+VERSION: constant(String[5]) = "1.0.0"
+VERSION_HASH: constant(bytes32) = keccak256(VERSION)
 
 
 CACHED_CHAIN_ID: immutable(uint256)
 CACHED_DOMAIN_SEPARATOR: immutable(bytes32)
+
+NAME_HASH: immutable(bytes32)
+
+name: public(immutable(String[64]))
+symbol: public(immutable(String[32]))
+decimals: public(immutable(uint8))
 
 
 totalSupply: public(uint256)
 balanceOf: public(HashMap[address, uint256])
 allowance: public(HashMap[address, HashMap[address, uint256]])
 
-owner: public(address)
-future_owner: public(address)
-
+minter: public(address)
 nonces: public(HashMap[address, uint256])
-is_minter: public(HashMap[address, bool])
 
 
 @external
-def __init__():
+def __init__(_name: String[64], _symbol: String[32], _decimals: uint8, _minter: address):
+    name = _name
+    symbol = _symbol
+    decimals = _decimals
+
     CACHED_CHAIN_ID = chain.id
     CACHED_DOMAIN_SEPARATOR = keccak256(
         _abi_encode(
             EIP712_TYPEHASH,
-            NAME_HASH,
+            keccak256(_name),
             VERSION_HASH,
             chain.id,
             self
         )
     )
 
-    self.owner = msg.sender
-    log TransferOwnership(msg.sender)
+    NAME_HASH = keccak256(_name)
+
+    self.minter = msg.sender
+    log SetMinter(msg.sender)
 
 
 @internal
@@ -270,7 +272,7 @@ def mint(_to: address, _value: uint256) -> bool:
     @param _to The account newly minted tokens are credited to.
     @param _value The amount of tokens to mint.
     """
-    assert self.is_minter[msg.sender]
+    assert msg.sender == self.minter
     assert _to not in [self, empty(address)]
 
     self.balanceOf[_to] += _value
@@ -281,33 +283,16 @@ def mint(_to: address, _value: uint256) -> bool:
 
 
 @external
-def toggle_minter(_minter: address):
-    assert msg.sender == self.owner
-
-    self.is_minter[_minter] = not self.is_minter[_minter]
-
-
-@external
-def commit_transfer_ownership(_future_owner: address):
+def set_minter(_minter: address):
     """
-    @notice Transfer ownership to `_future_owner`
-    @param _future_owner The account to commit as the future owner
+    @notice Set the minter.
+    @dev Only callble by the current minter account.
+    @param _minter The account to transfer minter permissions to.
     """
-    assert msg.sender == self.owner  # dev: only owner
+    assert msg.sender == self.minter
 
-    self.future_owner = _future_owner
-
-
-@external
-def accept_transfer_ownership():
-    """
-    @notice Accept the transfer of ownership
-    @dev Only the committed future owner can call this function
-    """
-    assert msg.sender == self.future_owner  # dev: only future owner
-
-    self.owner = msg.sender
-    log TransferOwnership(msg.sender)
+    self.minter = _minter
+    log SetMinter(_minter)
 
 
 @view
