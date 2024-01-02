@@ -21,7 +21,7 @@ interface Ownable {
     function accept_transfer_ownership() external;
 }
 
-contract GaugeTypeOracleProxyOwner {
+contract GaugeTypeProver {
     using RLPReader for bytes;
     using RLPReader for RLPReader.RLPItem;
 
