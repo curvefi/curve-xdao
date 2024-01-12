@@ -45,7 +45,7 @@ nonces: public(HashMap[address, uint256])
 
 
 @external
-def __init__(_name: String[64], _symbol: String[32], _decimals: uint8, _minter: address):
+def __init__(_name: String[64], _symbol: String[32], _decimals: uint8):
     name = _name
     symbol = _symbol
     decimals = _decimals
