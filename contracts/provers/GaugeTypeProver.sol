@@ -5,22 +5,15 @@ import {RLPReader} from "hamdiallam/Solidity-RLP@2.0.7/contracts/RLPReader.sol";
 import {StateProofVerifier as Verifier} from "../libs/StateProofVerifier.sol";
 
 interface IBlockHashOracle {
-    // a null value signifies block hash has not yet been set
-    function get_block_hash(
-        uint256 _block_number
-    ) external view returns (bytes32);
+    function get_block_hash(uint256 _number) external view returns (bytes32);
 }
 
 interface IGaugeTypeOracle {
     function set_gauge_type(address _gauge, uint256 _type) external;
 }
 
-interface Ownable {
-    function commit_transfer_ownership(address _future_owner) external;
-
-    function accept_transfer_ownership() external;
-}
-
+/// @title Gauge Type Prover
+/// @author Curve Finance
 contract GaugeTypeProver {
     using RLPReader for bytes;
     using RLPReader for RLPReader.RLPItem;
@@ -31,21 +24,18 @@ contract GaugeTypeProver {
         keccak256(abi.encodePacked(GAUGE_CONTROLLER));
 
     address public immutable BLOCK_HASH_ORACLE;
+    address public immutable GAUGE_TYPE_ORACLE;
 
-    address public owner;
-    address public future_owner;
-
-    event TransferOwnership(address indexed owner);
-
-    constructor(address _block_hash_oracle) {
+    constructor(address _block_hash_oracle, address _gauge_type_oracle) {
         BLOCK_HASH_ORACLE = _block_hash_oracle;
-
-        owner = msg.sender;
-        emit TransferOwnership(msg.sender);
+        GAUGE_TYPE_ORACLE = _gauge_type_oracle;
     }
 
-    function submit(
-        address _oracle,
+    /// Prove the type of a gauge.
+    /// @param _gauges List of gauges to prove the type of.
+    /// @param _block_header_rlp The block header of any block in which the gauge has its type set.
+    /// @param _proof_rlp The state proof of the gauge types.
+    function prove(
         address[] memory _gauges,
         bytes memory _block_header_rlp,
         bytes memory _proof_rlp
@@ -85,36 +75,10 @@ contract GaugeTypeProver {
             );
             require(slot.exists && slot.value != 0);
 
-            IGaugeTypeOracle(_oracle).set_gauge_type(
+            IGaugeTypeOracle(GAUGE_TYPE_ORACLE).set_gauge_type(
                 _gauges[idx - 1],
                 slot.value - 1 // the true gauge type is the slot value - 1
             );
         }
-    }
-
-    function commit_transfer_ownership(
-        address _target,
-        address _future_owner
-    ) external {
-        require(msg.sender == owner);
-
-        Ownable(_target).commit_transfer_ownership(_future_owner);
-    }
-
-    function accept_transfer_ownership(address _target) external {
-        Ownable(_target).accept_transfer_ownership();
-    }
-
-    function commit_transfer_ownership(address _future_owner) external {
-        require(msg.sender == owner);
-
-        future_owner = _future_owner;
-    }
-
-    function accept_transfer_ownership() external {
-        require(msg.sender == future_owner);
-
-        owner = msg.sender;
-        emit TransferOwnership(msg.sender);
     }
 }
