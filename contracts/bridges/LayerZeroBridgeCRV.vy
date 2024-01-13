@@ -273,6 +273,7 @@ def available() -> uint256:
     ts: uint256 = cache >> 192
     available: uint256 = cache & convert(max_value(uint192), uint256)
 
+    limit: uint256 = self.limit
     period: uint256 = self.period
 
     if period <= (block.timestamp - ts):
