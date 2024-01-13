@@ -1,19 +1,15 @@
 {
-    "network": "sidechain",
-    "deployments": {
-        "token": "0xa42bC2D78268D4De10cEdBb54BBEdDc98B0f4087",
-        "block_hash_oracle": "0x089e8a1c81B84605d9AAb288bf6E4651F832a598",
-        "gauge_type_oracle": "0xEf887495e75558b249289BE8eCc5930cf365B0Fb",
-        "gauge_type_prover": "0xE38817e803C269e335d04Fd67FEFf5F14cc550df",
-        "minter": "0x128dB096FCCDC981a13A4c97c303A63A4D1d859f",
-        "bridge": "0x3a92FDe409767227d925E32317D185739dB07fC1",
-        "receiver": "0xd4E246a492aD6796D36E662384F08B1135C8d13a"
-    }
-},
-{
-    "network": "mainnet",
-    "deployments": {
-        "bridge": "0x3a92FDe409767227d925E32317D185739dB07fC1",
-        "sender": "0xd4E246a492aD6796D36E662384F08B1135C8d13a"
+    "sidechain=8": {
+        "token": "0xAb0ab357a10c0161002A91426912933750082A9d",
+        "block_hash_oracle": "0x49C8De2D10C9A56DD9A59ab5Ca1216111276394C",
+        "gauge_type_oracle": "0x3553257365EECBE0E53145af0EE593B4fc5bcDE5",
+        "gauge_type_prover": "0x4eBaBb4D958b1417FBa05c8b6C7Dc6Fdfb163Feb",
+        "minter": "0x070BdE5926EA3db7C6DfB93a77fe14a79d9ebA19",
+        "bridge": "0x500e871F615db04A4938BbFd4818470069F428ba",
+        "receiver": "0xAE93A9f8D7D6cB93b29a06F0cb67c7029E54331D"
+    },
+    "mainnet->106": {
+        "bridge": "0x500e871F615db04A4938BbFd4818470069F428ba",
+        "sender": "0xAE93A9f8D7D6cB93b29a06F0cb67c7029E54331D"
     }
 }
