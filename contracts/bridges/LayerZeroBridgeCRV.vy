@@ -207,7 +207,7 @@ def retry(_nonce: uint64, _timestamp: uint256, _receiver: address, _amount: uint
     """
     @notice Retry a delayed bridge attempt.
     """
-    assert msg.sender == self.owner or not self.is_killed
+    assert not self.is_killed or msg.sender == self.owner
     assert self.delayed[_nonce] == keccak256(_abi_encode(_timestamp, _receiver, _amount))
 
     self.delayed[_nonce] = empty(bytes32)
@@ -261,6 +261,27 @@ def quote() -> uint256:
         False,
         concat(b"\x00\x01", convert(self.gas_limit, bytes32)),
     )
+
+
+@view
+@external
+def available() -> uint256:
+    """
+    @notice Query the available amount this bridge can currently mint.
+    """
+    cache: uint256 = self.cache
+    ts: uint256 = cache >> 192
+    available: uint256 = cache & convert(max_value(uint192), uint256)
+
+    period: uint256 = self.period
+
+    if period <= (block.timestamp - ts):
+        available = limit
+    else:
+        # regenerate amount which is available to mint at a rate of (limit / period)
+        available = min(available + (limit * (block.timestamp - ts) / period), limit)
+
+    return available
 
 
 @external
