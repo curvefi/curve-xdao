@@ -35,6 +35,6 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
 
     _: bool = raw_call(
         ORACLE,
-        concat(method_id("commit_block_hash(uint256,bytes32)"), _payload),
+        concat(method_id("commit(uint256,bytes32)"), _payload),
         revert_on_failure=False
     )

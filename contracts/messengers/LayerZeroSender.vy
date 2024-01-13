@@ -90,7 +90,7 @@ def quote() -> uint256:
     return LZEndpoint(LZ_ENDPOINT).estimateFees(
         LZ_CHAIN_ID,
         self,
-        empty(Bytes[64]),
+        _abi_encode(self, self),
         False,
         concat(b"\x00\x01", convert(self.gas_limit, bytes32))
     )
