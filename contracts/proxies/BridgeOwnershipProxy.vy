@@ -6,7 +6,7 @@
 """
 
 interface Bridge:
-    def set_delay(_delay: uint256): nonpayable
+    def set_period(_period: uint256): nonpayable
     def set_limit(_limit: uint256): nonpayable
     def set_killed(_is_killed: bool): nonpayable
     def commit_transfer_ownership(addr: address): nonpayable
@@ -53,10 +53,10 @@ def set_limit(_bridge: address, _limit: uint256):
 
 @external
 @nonreentrant('lock')
-def set_delay(_bridge: address, _delay: uint256):
+def set_period(_bridge: address, _period: uint256):
     assert msg.sender in [self.ownership_admin], "Access denied"
 
-    Bridge(_bridge).set_delay(_delay)
+    Bridge(_bridge).set_period(_period)
 
 
 @external
