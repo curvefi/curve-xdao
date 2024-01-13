@@ -4,44 +4,44 @@
 
 ### Ethereum
 
-- Bridge Owner Proxy - [`0x37964CeF70c940358b3DBD9E6DFf2D3366eF1445`](https://etherscan.io/address/0x37964CeF70c940358b3DBD9E6DFf2D3366eF1445#code)
-- AVAX Bridge (LayerZero) - [`0xD44eB2061362D28f741Bb3547b1a36aB13A8a582`](https://etherscan.io/address/0xD44eB2061362D28f741Bb3547b1a36aB13A8a582#code)
-- FTM Bridge (LayerZero) - [`0x9c735e617050fA6849462299513633d87FbD3f05`](https://etherscan.io/address/0x9c735e617050fA6849462299513633d87FbD3f05#code)
-- BNB Bridge (LayerZero) - [`0xd4b19642701964c402DFa668F96F294266bC0a86`](https://etherscan.io/address/0xd4b19642701964c402DFa668F96F294266bC0a86#code)
+- Bridge Owner Proxy - [`0x5a02d537fE0044E3eF506ccfA08f370425d1408C`](https://etherscan.io/address/0x5a02d537fE0044E3eF506ccfA08f370425d1408C#code)
+- AVAX Bridge (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://etherscan.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
+- FTM Bridge (LayerZero) - [`0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42`](https://etherscan.io/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42#code)
+- BNB Bridge (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://etherscan.io/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
 
 #### Keepers (Block Hash Sender)
 
-- AVAX Keeper (LayerZero) - [`0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b`](https://etherscan.io/address/0x3097cE53DBC8162EF7b0CAc56cbCa98C4aD4088b#code)
-- FTM Keeper (LayerZero) - [`0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f`](https://etherscan.io/address/0xb5F53A25e1Df7E7A1f68D412BA16aFFbdD1A8A3f#code)
-- BSC Keeper (LayerZero) - [`0xD8fFE80628D8e40085aeA6f311E768f39BA2294d`](https://etherscan.io/address/0xD8fFE80628D8e40085aeA6f311E768f39BA2294d#code)
+- AVAX Keeper (LayerZero) - [`0x90fe734080403F9dBDb343478A390B901CF3922C`](https://etherscan.io/address/0x90fe734080403F9dBDb343478A390B901CF3922C#code)
+- FTM Keeper (LayerZero) - [`0x9116ED9cfA7f291C3F7c8F855Db065c7ab5723e7`](https://etherscan.io/address/0x9116ED9cfA7f291C3F7c8F855Db065c7ab5723e7#code)
+- BSC Keeper (LayerZero) - [`0x49cdecc38B4CAf6a07c13558A32820333BC2aB61`](https://etherscan.io/address/0x49cdecc38B4CAf6a07c13558A32820333BC2aB61#code)
 - CCIP Keeper - [`0x51a00F38CB1c055EbbBE380D3bA3D27CAE5d9e61`](https://etherscan.io/address/0x51a00F38CB1c055EbbBE380D3bA3D27CAE5d9e61#code)
 
 ### AVAX
 
-- ETH Bridge (LayerZero) - [`0xD44eB2061362D28f741Bb3547b1a36aB13A8a582`](https://snowtrace.io/address/0xD44eB2061362D28f741Bb3547b1a36aB13A8a582#code)
+- ETH Bridge (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://snowtrace.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
 
-- Block Hash Oracle - [`0x00ee0CE8762320CDccf18fd84bF0Bc7493B94Baf`](https://snowtrace.io/address/0x00ee0CE8762320CDccf18fd84bF0Bc7493B94Baf#code)
-- Minter - [`0x4bE991EDbd59FFc6bBD4cE69C90f1d8b56297f65`](https://snowtrace.io/address/0x4bE991EDbd59FFc6bBD4cE69C90f1d8b56297f65#code)
-- Token (CRV20) - [`0x54D16C3E54731560940F71877568Fb0b859FC05d`](https://snowtrace.io/address/0x54D16C3E54731560940F71877568Fb0b859FC05d#code)
-- Gauge Type Oracle - [`0x9B7f0b68d70A741B8CB08A8e8423CcB72e630Db6`](https://snowtrace.io/address/0x9B7f0b68d70A741B8CB08A8e8423CcB72e630Db6#code)
-- Gauge Type Proof Verifier (Oracle Proxy Owner) - [`0x487802AbfDeC059bfEa7f319E0E5F7257a53B434`](https://snowtrace.io/address/0x487802AbfDeC059bfEa7f319E0E5F7257a53B434#code)
+- Block Hash Oracle - [`0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6`](https://snowtrace.io/address/0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6#code)
+- Minter - [`0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E`](https://snowtrace.io/address/0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E#code)
+- Token (CRV20) - [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowtrace.io/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B#code)
+- Gauge Type Oracle - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://snowtrace.io/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
+- Gauge Type Prover - [`0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62`](https://snowtrace.io/address/0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62#code)
 
 ### FTM
 
-- ETH Bridge (LayerZero) - [`0x9c735e617050fA6849462299513633d87FbD3f05`](https://ftmscan.com/address/0x9c735e617050fA6849462299513633d87FbD3f05#code)
+- ETH Bridge (LayerZero) - [`0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42`](https://ftmscan.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42#code)
 
-- Block Hash Oracle - [`0x16284e9FC1c9ef30Ef0e2152F1B588c44c20b816`](https://ftmscan.com/address/0x16284e9FC1c9ef30Ef0e2152F1B588c44c20b816#code)
-- Minter - [`0xc417E91098402Dd4F677782a2eC204C429CE513A`](https://ftmscan.com/address/0xc417E91098402Dd4F677782a2eC204C429CE513A#code)
-- Token (CRV20) - [`0xe2fb3F127f5450DeE44afe054385d74C392BdeF4`](https://ftmscan.com/address/0xe2fb3F127f5450DeE44afe054385d74C392BdeF4#code)
-- Gauge Type Oracle - [`0x2684BF704cc0472492A42a74961a92a1d99335A1`](https://ftmscan.com/address/0x2684BF704cc0472492A42a74961a92a1d99335A1#code)
-- Gauge Type Proof Verifier (Oracle Proxy Owner) - [`0x95ae66886274eA66Fc44B02Da59320e9384bD507`](https://ftmscan.com/address/0x95ae66886274eA66Fc44B02Da59320e9384bD507#code)
+- Block Hash Oracle - [`0xF179D410C710e3c35A17468B2624dCFCC7DB8267`](https://ftmscan.com/address/0xF179D410C710e3c35A17468B2624dCFCC7DB8267#code)
+- Minter - [`0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6`](https://ftmscan.com/address/0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6#code)
+- Token (CRV20) - [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscan.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3#code)
+- Gauge Type Oracle - [`0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46`](https://ftmscan.com/address/0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46#code)
+- Gauge Type Prover - [`0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054`](https://ftmscan.com/address/0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054#code)
 
 ### BSC
 
-- ETH Bridge (LayerZero) - [`0xd4b19642701964c402DFa668F96F294266bC0a86`](https://bscscan.com/address/0xd4b19642701964c402DFa668F96F294266bC0a86#code)
+- ETH Bridge (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://bscscan.com/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
 
-- Block Hash Oracle - [`0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f`](https://bscscan.com/address/0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f#code)
-- Minter - [`0x870f8A732387cA5Ac90529BEA033afe7758Ce51A`](https://bscscan.com/address/0x870f8A732387cA5Ac90529BEA033afe7758Ce51A#code)
-- Token (CRV20) - [`0x7edC6772d413d58035a4dFF266dD5A946f99db61`](https://bscscan.com/address/0x7edC6772d413d58035a4dFF266dD5A946f99db61#code)
-- Gauge Type Oracle - [`0x2920b776cB1fE251A243Fe5AfEEE689d4c86808f`](https://bscscan.com/address/0x2920b776cB1fE251A243Fe5AfEEE689d4c86808f#code)
-- Gauge Type Proof Verifier (Oracle Proxy Owner) - [`0xa7DCFa21646A1ce4eC382d3bC72D6CfCDBf3B2D8`](https://bscscan.com/address/0xa7DCFa21646A1ce4eC382d3bC72D6CfCDBf3B2D8#code)
+- Block Hash Oracle - [`0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37`](https://bscscan.com/address/0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37#code)
+- Minter - [`0x458599F83764aE9D0528301c1b6CB18dE63726bF`](https://bscscan.com/address/0x458599F83764aE9D0528301c1b6CB18dE63726bF#code)
+- Token (CRV20) - [`0x9996D0276612d23b35f90C51EE935520B3d7355B`](https://bscscan.com/address/0x9996D0276612d23b35f90C51EE935520B3d7355B#code)
+- Gauge Type Oracle - [`0x60dcc21869C6De55b50a196bE3c6D2Da189efD18`](https://bscscan.com/address/0x60dcc21869C6De55b50a196bE3c6D2Da189efD18#code)
+- Gauge Type Prover - [`0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc`](https://bscscan.com/address/0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc#code)
