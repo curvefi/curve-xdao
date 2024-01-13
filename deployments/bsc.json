@@ -1,0 +1,19 @@
+{
+    "network": "sidechain",
+    "deployments": {
+        "token": "0x46Ab0Ba85de0BC7554A9716c7C1F7D9101734138",
+        "block_hash_oracle": "0x6B37BFB3f5f48b41791CdE0699a1fd999F529F10",
+        "gauge_type_oracle": "0x423eCd4A6392e4A2d9bef14672952B46b8531C87",
+        "gauge_type_prover": "0x32210c42acabb13d616913AcB513e768f6165cF6",
+        "minter": "0xF77600F3d62Baa1AC6599c7f30C035298DC4136c",
+        "bridge": "0x6383C3e91AE573dD6498385f39716a8C5f293FC2",
+        "receiver": "0x6F7260904c9Ddf105F665C006c462f1c897FbDa6"
+    }
+}
+{
+    "network": "mainnet",
+    "deployments": {
+        "bridge": "0x6383C3e91AE573dD6498385f39716a8C5f293FC2",
+        "sender": "0x6F7260904c9Ddf105F665C006c462f1c897FbDa6"
+    }
+}
