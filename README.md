@@ -18,11 +18,13 @@
 
 ### AVAX
 
-- ETH Bridge (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://snowtrace.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
-
+- CRV Bridge -> ETH (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://snowtrace.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
+- CRVUSD Bridge -> ETH (LayerZero) - [`0x44c734821F97a6473E45B851C4F045E6ab9376f4`](https://snowtrace.io/address/0x44c734821F97a6473E45B851C4F045E6ab9376f4#code)
+- CRVUSD Minter Proxy - [`0x12B5993980E1f3652F0D3e22AC1d77E4626161F8`](https://snowtrace.io/address/0x12B5993980E1f3652F0D3e22AC1d77E4626161F8#code)
 - Block Hash Oracle - [`0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6`](https://snowtrace.io/address/0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6#code)
 - Minter - [`0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E`](https://snowtrace.io/address/0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E#code)
 - Token (CRV20) - [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowtrace.io/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B#code)
+- Token (CRVUSD) - [`0x146383d1f7cbfc33Aa433fCB6765BeE26B13f44A`](https://snowtrace.io/address/0x146383d1f7cbfc33Aa433fCB6765BeE26B13f44A#code)
 - Gauge Type Oracle - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://snowtrace.io/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
 - Gauge Type Prover - [`0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62`](https://snowtrace.io/address/0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62#code)
 - Message Digest Prover - [`0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0`](https://snowtrace.io/address/0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0#code)
