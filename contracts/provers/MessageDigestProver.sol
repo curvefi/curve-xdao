@@ -23,7 +23,7 @@ contract MessageDigestProver {
     using RLPReader for bytes;
     using RLPReader for RLPReader.RLPItem;
 
-    address constant BROADCASTER = 0xC03544C4C2216ea5e01F066FE402AB9040F56Fe5;
+    address constant BROADCASTER = 0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89;
     bytes32 constant BROADCASTER_HASH =
         keccak256(abi.encodePacked(BROADCASTER));
 
