@@ -29,11 +29,13 @@
 
 ### FTM
 
-- ETH Bridge (LayerZero) - [`0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42`](https://ftmscan.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42#code)
-
+- CRV Bridge -> ETH (LayerZero) - [`0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42`](https://ftmscan.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42#code)
+- CRVUSD Bridge -> ETH (LayerZero) - [`0x2020c4E0115C44751519977D297c7736E0b7183D`](https://ftmscan.com/address/0x2020c4E0115C44751519977D297c7736E0b7183D#code)
+- CRVUSD Minter Proxy - [`0x4eBaBb4D958b1417FBa05c8b6C7Dc6Fdfb163Feb`](https://ftmscan.com/address/0x4eBaBb4D958b1417FBa05c8b6C7Dc6Fdfb163Feb#code)
 - Block Hash Oracle - [`0xF179D410C710e3c35A17468B2624dCFCC7DB8267`](https://ftmscan.com/address/0xF179D410C710e3c35A17468B2624dCFCC7DB8267#code)
 - Minter - [`0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6`](https://ftmscan.com/address/0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6#code)
 - Token (CRV20) - [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscan.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3#code)
+- Token (CRVUSD) - [`0x3553257365EECBE0E53145af0EE593B4fc5bcDE5`](https://ftmscan.com/address/0x3553257365EECBE0E53145af0EE593B4fc5bcDE5#code)
 - Gauge Type Oracle - [`0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46`](https://ftmscan.com/address/0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46#code)
 - Gauge Type Prover - [`0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054`](https://ftmscan.com/address/0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054#code)
 - Message Digest Prover - [`0xAb0ab357a10c0161002A91426912933750082A9d`](https://ftmscan.com/address/0xAb0ab357a10c0161002A91426912933750082A9d#code)
