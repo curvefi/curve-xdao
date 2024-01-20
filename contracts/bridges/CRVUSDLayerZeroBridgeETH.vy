@@ -66,6 +66,7 @@ LZ_ENDPOINT: public(constant(address)) = 0x66A71Dcef29A0fFBDBE3c6a460a3B5BC225Cd
 LZ_CHAIN_ID: public(immutable(uint16))
 LZ_ADDRESS: immutable(Bytes[40])
 KECCAK_LZ_ADDRESS: immutable(bytes32)
+MIRROR_CRVUSD: immutable(address)
 
 
 limit: public(uint256)
@@ -82,7 +83,7 @@ is_killed: public(bool)
 
 
 @external
-def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16):
+def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16, _mirror_crvusd: address):
     self.delay = _delay
     log SetDelay(_delay)
 
@@ -97,6 +98,7 @@ def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16):
         slice(convert(self, bytes32), 12, 20), slice(convert(self, bytes32), 12, 20)
     )
     KECCAK_LZ_ADDRESS = keccak256(LZ_ADDRESS)
+    MIRROR_CRVUSD = _mirror_crvusd
 
 
 @payable
@@ -113,7 +115,7 @@ def bridge(
     @notice Bridge CRVUSD
     """
     assert not self.is_killed  # dev: dead
-    assert _amount != 0 and _receiver != empty(address)  # dev: invalid
+    assert _amount != 0 and _receiver not in [empty(address), MIRROR_CRVUSD]  # dev: invalid
 
     assert ERC20(CRVUSD).transferFrom(msg.sender, self, _amount)
 
@@ -157,7 +159,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     amount: uint256 = empty(uint256)
     receiver, amount = _abi_decode(_payload, (address, uint256))
 
-    if receiver == empty(address) or amount == 0:
+    if receiver in [empty(address), CRVUSD] or amount == 0:
         # precaution
         return
 

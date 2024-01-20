@@ -9,6 +9,8 @@ from vyper.interfaces import ERC20
 
 interface BMERC20:
     def burnFrom(_from: address, _value: uint256): nonpayable
+
+interface Minter:
     def mint(_for: address, _value: uint256): nonpayable
 
 interface Endpoint:
@@ -60,6 +62,8 @@ ISSUANCE_INTERVAL: constant(uint256) = 86400
 
 
 CRVUSD: public(immutable(address))
+MIRROR_CRVUSD: public(immutable(address))
+MINTER: public(immutable(address))
 
 LZ_ENDPOINT: public(immutable(address))
 LZ_CHAIN_ID: public(immutable(uint16))
@@ -80,7 +84,7 @@ is_killed: public(bool)
 
 
 @external
-def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16, _lz_endpoint: address, _crvusd: address):
+def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16, _lz_endpoint: address, _crvusd: address, _mirror_crvusd: address, _minter: address):
     self.delay = _delay
     log SetDelay(_delay)
 
@@ -97,6 +101,8 @@ def __init__(_delay: uint256, _limit: uint256, _lz_chain_id: uint16, _lz_endpoin
     KECCAK_LZ_ADDRESS = keccak256(LZ_ADDRESS)
     LZ_ENDPOINT = _lz_endpoint
     CRVUSD = _crvusd
+    MIRROR_CRVUSD = _mirror_crvusd
+    MINTER = _minter
 
 
 @payable
@@ -113,7 +119,7 @@ def bridge(
     @notice Bridge CRVUSD
     """
     assert not self.is_killed  # dev: dead
-    assert _amount != 0 and _receiver != empty(address)  # dev: invalid
+    assert _amount != 0 and _receiver not in [empty(address), MIRROR_CRVUSD]  # dev: invalid
 
     BMERC20(CRVUSD).burnFrom(msg.sender, _amount)
 
@@ -157,7 +163,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     amount: uint256 = empty(uint256)
     receiver, amount = _abi_decode(_payload, (address, uint256))
 
-    if receiver == empty(address) or amount == 0:
+    if receiver in [empty(address), CRVUSD] or amount == 0:
         # precaution
         return
 
@@ -170,7 +176,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     else:
         self.issued[period] = issued
 
-        BMERC20(CRVUSD).mint(receiver, amount)
+        Minter(MINTER).mint(receiver, amount)
 
         log Issued(_nonce, receiver, amount)
 
@@ -189,7 +195,7 @@ def retry(_nonce: uint64, _timestamp: uint256, _receiver: address, _amount: uint
 
     self.delayed[_nonce] = empty(bytes32)
 
-    BMERC20(CRVUSD).mint(_receiver, _amount)
+    Minter(MINTER).mint(_receiver, _amount)
 
     log Issued(_nonce, _receiver, _amount)
 
