@@ -42,11 +42,13 @@
 
 ### BSC
 
-- ETH Bridge (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://bscscan.com/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
-
+- CRV Bridge -> ETH (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://bscscan.com/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
+- CRVUSD Bridge -> ETH (LayerZero) - [`0x5Ee3510a9396bC46D2655f3f5520b1Fd85555576`](https://bscscan.com/address/0x5Ee3510a9396bC46D2655f3f5520b1Fd85555576#code)
+- CRVUSD Minter Proxy - [`0x16284e9FC1c9ef30Ef0e2152F1B588c44c20b816`](https://bscscan.com/address/0x16284e9FC1c9ef30Ef0e2152F1B588c44c20b816#code)
 - Block Hash Oracle - [`0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37`](https://bscscan.com/address/0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37#code)
 - Minter - [`0x458599F83764aE9D0528301c1b6CB18dE63726bF`](https://bscscan.com/address/0x458599F83764aE9D0528301c1b6CB18dE63726bF#code)
 - Token (CRV20) - [`0x9996D0276612d23b35f90C51EE935520B3d7355B`](https://bscscan.com/address/0x9996D0276612d23b35f90C51EE935520B3d7355B#code)
+- Token (CRVUSD) - [`0x74368518dd15d1a01d44d66E009c707EcbcCA15C`](https://bscscan.com/address/0x74368518dd15d1a01d44d66E009c707EcbcCA15C#code)
 - Gauge Type Oracle - [`0x60dcc21869C6De55b50a196bE3c6D2Da189efD18`](https://bscscan.com/address/0x60dcc21869C6De55b50a196bE3c6D2Da189efD18#code)
 - Gauge Type Prover - [`0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc`](https://bscscan.com/address/0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc#code)
 - Message Digest Prover - [`0xbfF1f56c8e48e2F2F52941e16FEecc76C49f1825`](https://bscscan.com/address/0xbfF1f56c8e48e2F2F52941e16FEecc76C49f1825#code)
