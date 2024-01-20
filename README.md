@@ -25,6 +25,7 @@
 - Token (CRV20) - [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowtrace.io/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B#code)
 - Gauge Type Oracle - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://snowtrace.io/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
 - Gauge Type Prover - [`0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62`](https://snowtrace.io/address/0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62#code)
+- Message Digest Prover - [`0xcc9B2C79bc0740B00F85Ed8b6899C609AE65b0D7`](https://snowtrace.io/address/0xcc9B2C79bc0740B00F85Ed8b6899C609AE65b0D7#code)
 
 ### FTM
 
