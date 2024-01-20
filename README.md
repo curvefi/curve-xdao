@@ -36,6 +36,7 @@
 - Token (CRV20) - [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscan.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3#code)
 - Gauge Type Oracle - [`0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46`](https://ftmscan.com/address/0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46#code)
 - Gauge Type Prover - [`0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054`](https://ftmscan.com/address/0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054#code)
+- Message Digest Prover - [`0xAb0ab357a10c0161002A91426912933750082A9d`](https://ftmscan.com/address/0xAb0ab357a10c0161002A91426912933750082A9d#code)
 
 ### BSC
 
