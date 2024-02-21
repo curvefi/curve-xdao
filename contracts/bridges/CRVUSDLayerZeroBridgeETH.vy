@@ -157,7 +157,7 @@ def lzReceive(_lz_chain_id: uint16, _lz_address: Bytes[40], _nonce: uint64, _pay
     amount: uint256 = empty(uint256)
     receiver, amount = _abi_decode(_payload, (address, uint256))
 
-    if receiver == empty(address) or amount == 0:
+    if receiver in [empty(address), CRVUSD] or amount == 0:
         # precaution
         return
 
@@ -185,7 +185,7 @@ def retry(_nonce: uint64, _timestamp: uint256, _receiver: address, _amount: uint
     """
     assert not self.is_killed  # dev: dead
 
-    assert _timestamp < block.timestamp + self.delay  # dev: too soon
+    assert _timestamp + self.delay < block.timestamp  # dev: too soon
     assert self.delayed[_nonce] == keccak256(
         _abi_encode(_timestamp, _abi_encode(_receiver, _amount))
     )  # dev: incorrect
