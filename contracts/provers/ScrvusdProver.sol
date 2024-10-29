@@ -83,7 +83,7 @@ contract ScrvusdProver {
         uint256[PARAM_CNT] memory params;
         Verifier.SlotValue memory slot;
         uint256 i = 0;
-        for (uint256 idx = 1; idx < 1 + PARAM_CNT-1; idx++) {
+        for (uint256 idx = 1; idx < 1 + PROOF_CNT; idx++) {
             slot = Verifier.extractSlotValueFromProof(
                 keccak256(abi.encode(PARAM_SLOTS[i])),
                 account.storageRoot,
