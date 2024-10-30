@@ -48,16 +48,21 @@ is_killed: public(HashMap[address, bool])
 
 
 @deploy
-def __init__(_ownership: address, _emergency: address):
+def __init__(_ownership: address, _emergency: address, _minters: DynArray[address, 4]):
     access_control.__init__()
 
     access_control._set_role_admin(MINTER_ROLE, access_control.DEFAULT_ADMIN_ROLE)
     access_control._set_role_admin(KILLER_ROLE, access_control.DEFAULT_ADMIN_ROLE)
 
-    # Set up minters first
-    # access_control._revoke_role(access_control.DEFAULT_ADMIN_ROLE, msg.sender)
-    # access_control._grant_role(access_control.DEFAULT_ADMIN_ROLE, _ownership)
+    for minter: address in _minters:
+        access_control._grant_role(MINTER_ROLE, minter)
+
+    access_control._revoke_role(access_control.DEFAULT_ADMIN_ROLE, msg.sender)
+    access_control._grant_role(access_control.DEFAULT_ADMIN_ROLE, _ownership)
     access_control._grant_role(KILLER_ROLE, _emergency)
+
+    # Allow ControllerFactory to rug debt ceiling and burn coins
+    extcall CRVUSD.approve(MINTER.address, max_value(uint256))
 
 
 @view
