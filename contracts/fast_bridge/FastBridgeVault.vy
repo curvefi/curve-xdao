@@ -43,6 +43,9 @@ MINTER: public(constant(IMinter)) = IMinter(0xC9332fdCB1C491Dcc683bAe86Fe3cb7036
 
 balanceOf: public(HashMap[address, uint256])
 
+fee: public(uint256)  # 10^18 precision
+fee_receiver: public(address)
+
 rug_scheduled: public(bool)
 is_killed: public(HashMap[address, bool])
 
@@ -63,6 +66,9 @@ def __init__(_ownership: address, _emergency: address, _minters: DynArray[addres
 
     # Allow ControllerFactory to rug debt ceiling and burn coins
     extcall CRVUSD.approve(MINTER.address, max_value(uint256))
+
+    self.fee = 0  # initially no fee
+    self.fee_receiver = 0xa2Bcd1a4Efbd04B63cd03f5aFf2561106ebCCE00  # FeeCollector
 
 
 @view
@@ -111,7 +117,9 @@ def mint(_receiver: address=msg.sender, _amount: uint256=0) -> uint256:
 
     amount: uint256 = self.balanceOf[_receiver]
     if access_control.hasRole[MINTER_ROLE][msg.sender]:
-        amount += _amount
+        fee: uint256 = _amount * self.fee // 10 ** 18
+        self.balanceOf[self.fee_receiver] += fee
+        amount += _amount - fee
 
     available: uint256 = min(self._get_balance(), amount)
     if available != 0:
@@ -130,6 +138,30 @@ def set_killed(_status: bool, _who: address=empty(address)):
     access_control._check_role(KILLER_ROLE, msg.sender)
 
     self.is_killed[_who] = _status
+
+
+@external
+def set_fee(_new_fee: uint256):
+    """
+    @notice Set fee on bridge transactions
+    @param _new_fee Fee with 10^18 precision
+    """
+    access_control._check_role(access_control.DEFAULT_ADMIN_ROLE, msg.sender)
+    assert _new_fee <= 10 ** 18
+
+    self.fee = _new_fee
+
+
+@external
+def set_fee_receiver(_new_fee_receiver: address):
+    """
+    @notice Set new fee receiver
+    @param _new_fee_receiver Fee receiver address
+    """
+    access_control._check_role(access_control.DEFAULT_ADMIN_ROLE, msg.sender)
+    assert _new_fee_receiver != empty(address)
+
+    self.fee_receiver = _new_fee_receiver
 
 
 @external
