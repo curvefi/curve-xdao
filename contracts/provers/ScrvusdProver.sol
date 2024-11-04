@@ -21,7 +21,7 @@ contract ScrvusdProver {
     using RLPReader for RLPReader.RLPItem;
 
     address constant SCRVUSD =
-        0x182863131F9a4630fF9E27830d945B1413e347E8;  // Temporary compatible vault
+        0x0655977FEb2f289A4aB78af67BAB0d17aAb84367;
     bytes32 constant SCRVUSD_HASH =
         keccak256(abi.encodePacked(SCRVUSD));
 

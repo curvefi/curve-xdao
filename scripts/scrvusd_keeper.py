@@ -14,7 +14,7 @@ from submit_scrvusd_price import generate_proof
 ETH_NETWORK = f"https://eth-mainnet.alchemyapi.io/v2/{os.environ['WEB3_ETHEREUM_MAINNET_ALCHEMY_API_KEY']}"
 L2_NETWORK = f"https://opt-mainnet.g.alchemy.com/v2/{os.environ['WEB3_OPTIMISM_MAINNET_ALCHEMY_API_KEY']}"
 
-SCRVUSD = ""
+SCRVUSD = "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367"
 
 B_ORACLE = ""
 S_ORACLE = ""
@@ -71,7 +71,7 @@ def prove(boracle, prover):
     print(f"Applied block: {number}")
 
     # Generate and submit proof for applied blockhash
-    proofs = generate_proof(number, eth_web3)
+    proofs = generate_proof(eth_web3, number)
     tx = prover.functions.prove(proofs[0], proofs[1]).build_transaction()
     signed_tx = l2_web3.eth.account.sign_transaction(tx, private_key=wallet_pk)
     l2_web3.eth.send_raw_transaction(signed_tx.rawTransaction)

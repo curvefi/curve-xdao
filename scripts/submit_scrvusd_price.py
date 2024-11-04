@@ -4,7 +4,7 @@ import web3
 from hexbytes import HexBytes
 
 BLOCK_NUMBER = 18578883
-SCRVUSD = "0x182863131F9a4630fF9E27830d945B1413e347E8"
+SCRVUSD = "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367"
 
 PROVER = ""
 
@@ -63,8 +63,7 @@ def serialize_proofs(proofs):
     return rlp.encode([account_proof, *storage_proofs])
 
 
-def generate_proof(block_number, eth_web3, log=False):
-    block_number = block_number or BLOCK_NUMBER
+def generate_proof(eth_web3, block_number=BLOCK_NUMBER, log=False):
     block = eth_web3.eth.get_block(block_number)
     if log:
         print(f"Generating proof for block {block.number}, {block.hash.hex()}")
@@ -79,11 +78,7 @@ def generate_proof(block_number, eth_web3, log=False):
     return block_header_rlp.hex(), proof_rlp.hex()
 
 
-def submit_proof(proofs, prover=None):
-    prover = prover or PROVER
-    # if isinstance(prover, str):
-    #     prover = boa_solidity.load_partial("contracts/provers/ScrvusdProver.sol").at(prover)
-
+def submit_proof(proofs, prover=PROVER):
     if proofs:
         block_header_rlp, proof_rlp = proofs
     else:
@@ -92,4 +87,10 @@ def submit_proof(proofs, prover=None):
         with open("proof.txt") as f:
             proof_rlp = f.read()
 
-    prover.prove(bytes.fromhex(block_header_rlp), bytes.fromhex(proof_rlp))
+    if isinstance(prover, str):
+        from brownie import accounts, ScrvusdProver
+        dev = accounts.load("dev")
+        prover = ScrvusdProver.at(prover)
+        prover.prove(bytes.fromhex(block_header_rlp), bytes.fromhex(proof_rlp), {"from": dev})
+    else:
+        prover.prove(bytes.fromhex(block_header_rlp), bytes.fromhex(proof_rlp))
