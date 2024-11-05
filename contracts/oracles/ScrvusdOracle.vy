@@ -3,7 +3,7 @@
 @title scrvUSD oracle
 @notice Oracle of scrvUSD share price for StableSwap pool and other integrations.
     Price updates are linearly smoothed with max acceleration to eliminate sharp changes.
-@license Copyright (c) Curve.Fi, 2020-2024 - all rights reserved
+@license MIT
 @author curve.fi
 @custom:version 0.0.1
 @custom:security security@curve.fi
