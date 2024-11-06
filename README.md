@@ -22,6 +22,12 @@
 - KAVA Bridge (LayerZero) - [`0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc`](https://etherscan.io/address/0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc#code)
 <!-- - Polygon Bridge (LayerZero) - [`0x4782965BB280A8A6CA7dAEB31BEb25E181F66994`](https://etherscan.io/address/0x4782965BB280A8A6CA7dAEB31BEb25E181F66994#code) -->
 
+#### scrvUSD Bridges
+
+- AVAX Bridge (LayerZero) - [``](https://etherscan.io/address/#code)
+- BNB Bridge (LayerZero) - [`0xAE0666C978500f2C05784242B79B08C478Dd999c`](https://etherscan.io/address/0xAE0666C978500f2C05784242B79B08C478Dd999c#code)
+- FTM Bridge (LayerZero) - [``](https://etherscan.io/address/#code)
+
 #### Keepers (Block Hash Sender)
 
 - AVAX Keeper (LayerZero) - [`0x90fe734080403F9dBDb343478A390B901CF3922C`](https://etherscan.io/address/0x90fe734080403F9dBDb343478A390B901CF3922C#code)
@@ -63,12 +69,16 @@
 
 - CRV ETH Bridge (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://bscscan.com/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
 - crvUSD ETH Bridge (LayerZero) - [`0x0A92Fd5271dB1C41564BD01ef6b1a75fC1db4d4f`](https://bscscan.com/address/0x0A92Fd5271dB1C41564BD01ef6b1a75fC1db4d4f#code)
+- scrvUSD ETH Bridge (LayerZero) - [`0xAE0666C978500f2C05784242B79B08C478Dd999c`](https://bscscan.com/address/0xAE0666C978500f2C05784242B79B08C478Dd999c#code)
+
 
 - Block Hash Oracle - [`0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37`](https://bscscan.com/address/0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37#code)
 - Minter - [`0x458599F83764aE9D0528301c1b6CB18dE63726bF`](https://bscscan.com/address/0x458599F83764aE9D0528301c1b6CB18dE63726bF#code)
 - Token (CRV20) - [`0x9996D0276612d23b35f90C51EE935520B3d7355B`](https://bscscan.com/address/0x9996D0276612d23b35f90C51EE935520B3d7355B#code)
 - Token (CRVUSD) - [`0xe2fb3F127f5450DeE44afe054385d74C392BdeF4`](https://bscscan.com/address/0xe2fb3F127f5450DeE44afe054385d74C392BdeF4#code)
+- Token (SCRVUSD) - [`0x0094Ad026643994c8fB2136ec912D508B15fe0E5`](https://bscscan.com/address/0x0094Ad026643994c8fB2136ec912D508B15fe0E5#code)
 - Minter (CRVUSD) - [`0xc417E91098402Dd4F677782a2eC204C429CE513A`](https://bscscan.com/address/0xc417E91098402Dd4F677782a2eC204C429CE513A#code)
+- Minter (SCRVUSD) - [`0x4C62AC3F6088E882C9B2a315056bc298D22128bd`](https://bscscan.com/address/0x4C62AC3F6088E882C9B2a315056bc298D22128bd#code)
 - Gauge Type Oracle - [`0x60dcc21869C6De55b50a196bE3c6D2Da189efD18`](https://bscscan.com/address/0x60dcc21869C6De55b50a196bE3c6D2Da189efD18#code)
 - Gauge Type Prover - [`0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc`](https://bscscan.com/address/0xd7454AEbf1C37661dfb5d2857F6aF7a2E09975bc#code)
 - Message Digest Prover - [`0xbfF1f56c8e48e2F2F52941e16FEecc76C49f1825`](https://bscscan.com/address/0xbfF1f56c8e48e2F2F52941e16FEecc76C49f1825#code)
