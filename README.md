@@ -26,7 +26,7 @@
 
 - AVAX Bridge (LayerZero) - [``](https://etherscan.io/address/#code)
 - BNB Bridge (LayerZero) - [`0xAE0666C978500f2C05784242B79B08C478Dd999c`](https://etherscan.io/address/0xAE0666C978500f2C05784242B79B08C478Dd999c#code)
-- FTM Bridge (LayerZero) - [``](https://etherscan.io/address/#code)
+- FTM Bridge (LayerZero) - [`0x08132eA9b02750E118cF5F5C640B7c46A8E638E8`](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8#code)
 
 #### Keepers (Block Hash Sender)
 
@@ -55,12 +55,16 @@
 
 - CRV ETH Bridge (LayerZero) - [`0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42`](https://ftmscan.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42#code)
 - CRVUSD ETH Bridge (LayerZero) - [`0x76EAfda658C54548B460B3f190386699DE3827d8`](https://ftmscan.com/address/0x76EAfda658C54548B460B3f190386699DE3827d8#code)
+- SCRVUSD ETH Bridge (LayerZero) - [`0x08132eA9b02750E118cF5F5C640B7c46A8E638E8`](https://ftmscan.com/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8#code)
+
 
 - Block Hash Oracle - [`0xF179D410C710e3c35A17468B2624dCFCC7DB8267`](https://ftmscan.com/address/0xF179D410C710e3c35A17468B2624dCFCC7DB8267#code)
 - CRV Minter - [`0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6`](https://ftmscan.com/address/0x444D6B4d7Ad9521FbFB563B4f896ace22DDB70c6#code)
 - CRVUSD Minter - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://ftmscan.com/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
+- SCRVUSD Minter - [`0xF830b9E88f994BbB069aC884d40fA2E09d050BB8`](https://ftmscan.com/address/0xF830b9E88f994BbB069aC884d40fA2E09d050BB8#code)
 - Token (CRV20) - [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscan.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3#code)
 - Token (CRVUSD) - [`0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6`](https://ftmscan.com/address/0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6#code)
+- Token (SCRVUSD) - [`0x5191946500e75f0A74476F146dF7d386e52961d9`](https://ftmscan.com/address/0x5191946500e75f0A74476F146dF7d386e52961d9#code)
 - Gauge Type Oracle - [`0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46`](https://ftmscan.com/address/0x898Cd2cCE27CE3eb7eACBDD85FEd8181379f0F46#code)
 - Gauge Type Prover - [`0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054`](https://ftmscan.com/address/0x7FA0a0E2820b7B12aeFb3A2A3c0C6F83aAD87054#code)
 - Message Digest Prover - [`0xAb0ab357a10c0161002A91426912933750082A9d`](https://ftmscan.com/address/0xAb0ab357a10c0161002A91426912933750082A9d#code)
