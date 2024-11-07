@@ -24,7 +24,7 @@
 
 #### scrvUSD Bridges
 
-- AVAX Bridge (LayerZero) - [``](https://etherscan.io/address/#code)
+- AVAX Bridge (LayerZero) - [`0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8`](https://etherscan.io/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8#code)
 - BNB Bridge (LayerZero) - [`0xAE0666C978500f2C05784242B79B08C478Dd999c`](https://etherscan.io/address/0xAE0666C978500f2C05784242B79B08C478Dd999c#code)
 - FTM Bridge (LayerZero) - [`0x08132eA9b02750E118cF5F5C640B7c46A8E638E8`](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8#code)
 
@@ -39,17 +39,21 @@
 
 ### AVAX
 
-- CRV ETH Bridge (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://snowtrace.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
-- CRVUSD ETH Bridge (LayerZero) - [`0x26D01ce989037befd7Ff63837A86e2da32E7D7e2`](https://snowtrace.io/address/0x26D01ce989037befd7Ff63837A86e2da32E7D7e2#code)
+- CRV ETH Bridge (LayerZero) - [`0x5cc0144A511807608eF644c9e99B486124D1cFd6`](https://snowscan.xyz/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6#code)
+- CRVUSD ETH Bridge (LayerZero) - [`0x26D01ce989037befd7Ff63837A86e2da32E7D7e2`](https://snowscan.xyz/address/0x26D01ce989037befd7Ff63837A86e2da32E7D7e2#code)
+- SCRVUSD ETH Bridge (LayerZero) - [`0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8`](https://snowscan.xyz/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8#code)
 
-- Block Hash Oracle - [`0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6`](https://snowtrace.io/address/0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6#code)
-- CRV Minter - [`0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E`](https://snowtrace.io/address/0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E#code)
-- CRVUSD Minter - [`0x4765288DE2672A961cc5A9f52bE75005cAF005a5`](https://snowtrace.io/address/0x4765288DE2672A961cc5A9f52bE75005cAF005a5#code)
-- Token (CRV20) - [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowtrace.io/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B#code)
-- Token (CRVUSD) - [`0xCb7c161602d04C4e8aF1832046EE08AAF96d855D`](https://snowtrace.io/address/0xCb7c161602d04C4e8aF1832046EE08AAF96d855D#code)
-- Gauge Type Oracle - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://snowtrace.io/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
-- Gauge Type Prover - [`0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62`](https://snowtrace.io/address/0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62#code)
-- Message Digest Prover - [`0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0`](https://snowtrace.io/address/0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0#code)
+
+- Block Hash Oracle - [`0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6`](https://snowscan.xyz/address/0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6#code)
+- CRV Minter - [`0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E`](https://snowscan.xyz/address/0xcaf4969dAb56C20fCb89ceC041079AB02158fE3E#code)
+- CRVUSD Minter - [`0x4765288DE2672A961cc5A9f52bE75005cAF005a5`](https://snowscan.xyz/address/0x4765288DE2672A961cc5A9f52bE75005cAF005a5#code)
+- SCRVUSD Minter - [`0x47ca04Ee05f167583122833abfb0f14aC5677Ee4`](https://snowscan.xyz/address/0x47ca04Ee05f167583122833abfb0f14aC5677Ee4#code)
+- Token (CRV20) - [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowscan.xyz/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B#code)
+- Token (CRVUSD) - [`0xCb7c161602d04C4e8aF1832046EE08AAF96d855D`](https://snowscan.xyz/address/0xCb7c161602d04C4e8aF1832046EE08AAF96d855D#code)
+- Token (SCRVUSD) - [`0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64`](https://snowscan.xyz/address/0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64#code)
+- Gauge Type Oracle - [`0x01689FE734D0aA98be3A9a761aE11a20Dd968E41`](https://snowscan.xyz/address/0x01689FE734D0aA98be3A9a761aE11a20Dd968E41#code)
+- Gauge Type Prover - [`0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62`](https://snowscan.xyz/address/0x0B2584EfC66e9954e72d516be2Bb855EF0Defe62#code)
+- Message Digest Prover - [`0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0`](https://snowscan.xyz/address/0xd5cF10C83aC5F30Ab27B6156DA9c238Aa63a63d0#code)
 
 ### FTM
 
