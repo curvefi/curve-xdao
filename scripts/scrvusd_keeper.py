@@ -16,17 +16,14 @@ L2_NETWORK = f"https://opt-mainnet.g.alchemy.com/v2/{os.environ['WEB3_OPTIMISM_M
 
 SCRVUSD = "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367"
 
-# optimism
-# 0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7, 0xC772063cE3e622B458B706Dd2e36309418A1aE42, 0x47ca04Ee05f167583122833abfb0f14aC5677Ee4
-# base
-# 0x3c0a405E914337139992625D5100Ea141a9C4d11, 0x3d8EADb739D1Ef95dd53D718e4810721837c69c1, 0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5
-# fraxtal
-# 0xbD2775B8eADaE81501898eB208715f0040E51882, 0x09F8D940EAD55853c51045bcbfE67341B686C071, 0x0094Ad026643994c8fB2136ec912D508B15fe0E5
-# mantle
-# 0x004A476B5B76738E34c86C7144554B9d34402F13, 0xbD2775B8eADaE81501898eB208715f0040E51882, 0x09F8D940EAD55853c51045bcbfE67341B686C071
-B_ORACLE = "0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7"
-S_ORACLE = "0xC772063cE3e622B458B706Dd2e36309418A1aE42"
-PROVER = "0x47ca04Ee05f167583122833abfb0f14aC5677Ee4"
+DEPLOYMENTS = {
+    "optimism": ("0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7", "0xC772063cE3e622B458B706Dd2e36309418A1aE42", "0x47ca04Ee05f167583122833abfb0f14aC5677Ee4"),
+    "base": ("0x3c0a405E914337139992625D5100Ea141a9C4d11", "0x3d8EADb739D1Ef95dd53D718e4810721837c69c1", "0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5"),
+    "fraxtal": ("0xbD2775B8eADaE81501898eB208715f0040E51882", "0x09F8D940EAD55853c51045bcbfE67341B686C071", "0x0094Ad026643994c8fB2136ec912D508B15fe0E5"),
+    "mantle": ("0x004A476B5B76738E34c86C7144554B9d34402F13", "0xbD2775B8eADaE81501898eB208715f0040E51882", "0x09F8D940EAD55853c51045bcbfE67341B686C071"),
+}
+
+B_ORACLE, S_ORACLE, PROVER = DEPLOYMENTS["optimism"]
 
 last_update = 0
 REL_CHANGE_THRESHOLD = 1.00005  # 0.5 bps, should be >1
@@ -60,32 +57,34 @@ def account_load_pkey(fname):
 wallet = Account.from_key(account_load_pkey("keeper"))
 
 
-def prove(boracle, prover):
-    # Apply latest available blockhash
-    tx = boracle.functions.apply().build_transaction(
-        {
-            "from": wallet.address,
-            "nonce": l2_web3.eth.get_transaction_count(wallet.address),
-        }
-    )
-    signed_tx = l2_web3.eth.account.sign_transaction(tx, private_key=wallet.key)
-    tx_hash = l2_web3.eth.send_raw_transaction(signed_tx.raw_transaction)
-    l2_web3.eth.wait_for_transaction_receipt(tx_hash)
-    tx_receipt = l2_web3.eth.get_transaction_receipt(tx_hash)
-    number = -1
-    for log in tx_receipt["logs"]:
-        if log["address"] == boracle.address:
-            if log["topics"][0].hex() == APPLY_BLOCK_HASH:
-                number = int(log["topics"][1].hex(), 16)
-                break
-            if log["topics"][0].hex() == COMMIT_BLOCK_HASH:
-                number = int(log["topics"][2].hex(), 16)
-                break
-    assert number > 0, "Applied block number not retrieved"
-    print(f"Applied block: {number}")
+def prove(boracle, prover, block_number=None):
+    if not block_number:
+        # Apply latest available blockhash
+        tx = boracle.functions.apply().build_transaction(
+            {
+                "from": wallet.address,
+                "nonce": l2_web3.eth.get_transaction_count(wallet.address),
+            }
+        )
+        signed_tx = l2_web3.eth.account.sign_transaction(tx, private_key=wallet.key)
+        tx_hash = l2_web3.eth.send_raw_transaction(signed_tx.raw_transaction)
+        l2_web3.eth.wait_for_transaction_receipt(tx_hash)
+        tx_receipt = l2_web3.eth.get_transaction_receipt(tx_hash)
+        block_number = -1
+        for log in tx_receipt["logs"]:
+            if log["address"] == boracle.address:
+                if log["topics"][0].hex() == APPLY_BLOCK_HASH:
+                    block_number = int(log["topics"][1].hex(), 16)
+                    break
+                if log["topics"][0].hex() == COMMIT_BLOCK_HASH:
+                    block_number = int(log["topics"][2].hex(), 16)
+                    break
+        assert block_number > 0, "Applied block number not retrieved"
+        print(f"Applied block: {block_number}")
+        time.sleep(1)
 
     # Generate and submit proof for applied blockhash
-    proofs = generate_proof(eth_web3, number)
+    proofs = generate_proof(eth_web3, block_number)
     tx = prover.functions.prove(bytes.fromhex(proofs[0]), bytes.fromhex(proofs[1])).build_transaction(
         {
             "from": wallet.address,
