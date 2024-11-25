@@ -7,9 +7,15 @@ from getpass import getpass
 from web3 import Web3
 from web3.middleware import ExtraDataToPOAMiddleware
 
-NETWORK = "https://bsc.rpc.blxrbdn.com"
-POA = False  # bsc, gnosis, etc
-BLOCKHASH_ORACLE = "0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37"
+NETWORK = "https://bscrpc.com"  # ALTER
+CHAIN_ID = 56  # ALTER
+POA = (CHAIN_ID in (56,))
+BLOCKHASH_ORACLE = {
+    43114: "0xD823D2a2B5AF77835e972A0D5B77f5F5A9a003A6",  # avax
+    250: "0xF179D410C710e3c35A17468B2624dCFCC7DB8267",  # ftm
+    56: "0x7cDe6Ef7e2e2FD3B6355637F1303586D7262ba37",  # bsc
+    2222: "0x05d4E2Ed7216A204e5FB4e3F5187eCfaa5eF3Ef7",  # kava
+}[CHAIN_ID]
 
 COMMIT_BLOCK_HASH = "0x8039f84f0eb77eb0be5293b76b4581ab181b17950e0da213eaf8847d6cf8fc02"
 BLOCKHASH_ORACLE_ABI = [{'name': 'CommitBlockHash', 'inputs': [{'name': 'committer', 'type': 'address', 'indexed': True}, {'name': 'number', 'type': 'uint256', 'indexed': True}, {'name': 'hash', 'type': 'bytes32', 'indexed': False}], 'anonymous': False, 'type': 'event'}, {'name': 'ApplyBlockHash', 'inputs': [{'name': 'number', 'type': 'uint256', 'indexed': True}, {'name': 'hash', 'type': 'bytes32', 'indexed': False}], 'anonymous': False, 'type': 'event'}, {'name': 'AddCommitter', 'inputs': [{'name': 'committer', 'type': 'address', 'indexed': True}], 'anonymous': False, 'type': 'event'}, {'name': 'RemoveCommitter', 'inputs': [{'name': 'committer', 'type': 'address', 'indexed': True}], 'anonymous': False, 'type': 'event'}, {'name': 'SetThreshold', 'inputs': [{'name': 'threshold', 'type': 'uint256', 'indexed': False}], 'anonymous': False, 'type': 'event'}, {'name': 'TransferOwnership', 'inputs': [{'name': 'owner', 'type': 'address', 'indexed': True}], 'anonymous': False, 'type': 'event'}, {'stateMutability': 'nonpayable', 'type': 'constructor', 'inputs': [{'name': '_threshold', 'type': 'uint256'}], 'outputs': []}, {'stateMutability': 'view', 'type': 'function', 'name': 'get_block_hash', 'inputs': [{'name': '_number', 'type': 'uint256'}], 'outputs': [{'name': '', 'type': 'bytes32'}]}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'commit', 'inputs': [{'name': '_number', 'type': 'uint256'}, {'name': '_hash', 'type': 'bytes32'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'apply', 'inputs': [{'name': '_number', 'type': 'uint256'}, {'name': '_hash', 'type': 'bytes32'}, {'name': '_committers', 'type': 'address[]'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'add_committer', 'inputs': [{'name': '_committer', 'type': 'address'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'remove_committer', 'inputs': [{'name': '_committer', 'type': 'address'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'set_threshold', 'inputs': [{'name': '_threshold', 'type': 'uint256'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'set_block_hash', 'inputs': [{'name': '_number', 'type': 'uint256'}, {'name': '_hash', 'type': 'bytes32'}], 'outputs': []}, {'stateMutability': 'view', 'type': 'function', 'name': 'is_committer', 'inputs': [{'name': '_committer', 'type': 'address'}], 'outputs': [{'name': '', 'type': 'bool'}]}, {'stateMutability': 'view', 'type': 'function', 'name': 'committer_count', 'inputs': [], 'outputs': [{'name': '', 'type': 'uint256'}]}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'commit_transfer_ownership', 'inputs': [{'name': '_future_owner', 'type': 'address'}], 'outputs': []}, {'stateMutability': 'nonpayable', 'type': 'function', 'name': 'accept_transfer_ownership', 'inputs': [], 'outputs': []}, {'stateMutability': 'view', 'type': 'function', 'name': 'commitments', 'inputs': [{'name': 'arg0', 'type': 'address'}, {'name': 'arg1', 'type': 'uint256'}], 'outputs': [{'name': '', 'type': 'bytes32'}]}, {'stateMutability': 'view', 'type': 'function', 'name': 'get_committer', 'inputs': [{'name': 'arg0', 'type': 'uint256'}], 'outputs': [{'name': '', 'type': 'address'}]}, {'stateMutability': 'view', 'type': 'function', 'name': 'threshold', 'inputs': [], 'outputs': [{'name': '', 'type': 'uint256'}]}, {'stateMutability': 'view', 'type': 'function', 'name': 'owner', 'inputs': [], 'outputs': [{'name': '', 'type': 'address'}]}, {'stateMutability': 'view', 'type': 'function', 'name': 'future_owner', 'inputs': [], 'outputs': [{'name': '', 'type': 'address'}]}]
@@ -110,5 +116,5 @@ if __name__ == "__main__":
     web3 = Web3(Web3.HTTPProvider(NETWORK))
     if POA:
         web3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
-    signer = account_load_pkey("keeper")
+    signer = account_load_pkey("keeper")  # ALTER
     apply_blockhash(web3, signer, log=True)
