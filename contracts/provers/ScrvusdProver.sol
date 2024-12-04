@@ -10,7 +10,8 @@ interface IBlockHashOracle {
 
 interface IScrvusdOracle {
     function update_price(
-        uint256[2 + 6] memory _parameters
+        uint256[2 + 5] memory _parameters,
+        uint256 ts
     ) external returns (uint256);
 }
 
@@ -28,8 +29,8 @@ contract ScrvusdProver {
     address public immutable BLOCK_HASH_ORACLE;
     address public immutable SCRVUSD_ORACLE;
 
-    uint256 constant PARAM_CNT = 2 + 6;
-    uint256 constant PROOF_CNT = PARAM_CNT - 1;  // -1 for timestamp obtained from block header
+    uint256 constant PARAM_CNT = 2 + 5;
+    uint256 constant PROOF_CNT = 1 + PARAM_CNT;  // account proof first
 
     constructor(address _block_hash_oracle, address _scrvusd_oracle) {
         BLOCK_HASH_ORACLE = _block_hash_oracle;
@@ -56,7 +57,7 @@ contract ScrvusdProver {
 
         // convert _proof_rlp into a list of `RLPItem`s
         RLPReader.RLPItem[] memory proofs = _proof_rlp.toRlpItem().toList();
-        require(proofs.length == 1 + PROOF_CNT); // dev: invalid number of proofs
+        require(proofs.length == PROOF_CNT); // dev: invalid number of proofs
 
         // 0th proof is the account proof for the scrvUSD contract
         Verifier.Account memory account = Verifier.extractAccountFromProof(
@@ -68,6 +69,8 @@ contract ScrvusdProver {
 
         // iterate over proofs
         uint256[PROOF_CNT] memory PARAM_SLOTS = [
+            0, // filler
+
             // Assets parameters
             uint256(21),  // total_debt
             22,  // total_idle
@@ -78,24 +81,20 @@ contract ScrvusdProver {
             39,  // profit_unlocking_rate
             40,  // last_profit_update
             uint256(keccak256(abi.encode(18, SCRVUSD)))  // balance_of_self
-            // ts from block header
         ];
         uint256[PARAM_CNT] memory params;
         Verifier.SlotValue memory slot;
-        uint256 i = 0;
-        for (uint256 idx = 1; idx < 1 + PROOF_CNT; idx++) {
+        for (uint256 idx = 1; idx < PROOF_CNT; idx++) {
             slot = Verifier.extractSlotValueFromProof(
-                keccak256(abi.encode(PARAM_SLOTS[i])),
+                keccak256(abi.encode(PARAM_SLOTS[idx])),
                 account.storageRoot,
                 proofs[idx].toList()
             );
             // Some slots may not be used => not exist, e.g. total_idle
             // require(slot.exists);
 
-            params[i] = slot.value;
-            i++;
+            params[idx - 1] = slot.value;
         }
-        params[i] = block_header.timestamp;
-        return IScrvusdOracle(SCRVUSD_ORACLE).update_price(params);
+        return IScrvusdOracle(SCRVUSD_ORACLE).update_price(params, block_header.timestamp);
     }
 }

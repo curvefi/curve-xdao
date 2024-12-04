@@ -37,8 +37,7 @@ ASSETS_PARAM_CNT: constant(uint256) = 2
 # 2 profit_unlocking_rate
 # 3 last_profit_update
 # 4 balance_of_self
-# 5 block.timestamp
-SUPPLY_PARAM_CNT: constant(uint256) = 6
+SUPPLY_PARAM_CNT: constant(uint256) = 5
 MAX_BPS_EXTENDED: constant(uint256) = 1_000_000_000_000
 
 prover: public(address)
@@ -115,7 +114,6 @@ def price_oracle(i: uint256=0) -> uint256:
 
 
 @view
-@internal
 def _unlocked_shares(
     full_profit_unlock_date: uint256,
     profit_unlocking_rate: uint256,
@@ -143,41 +141,43 @@ def _unlocked_shares(
 
 
 @view
-@internal
-def _total_supply(parameters: uint256[ASSETS_PARAM_CNT + SUPPLY_PARAM_CNT]) -> uint256:
+def _total_supply(parameters: uint256[ALL_PARAM_CNT], ts: uint256) -> uint256:
     # Need to account for the shares issued to the vault that have unlocked.
+    # return self.total_supply - self._unlocked_shares()
     return parameters[ASSETS_PARAM_CNT + 0] -\
         self._unlocked_shares(
             parameters[ASSETS_PARAM_CNT + 1],  # full_profit_unlock_date
             parameters[ASSETS_PARAM_CNT + 2],  # profit_unlocking_rate
             parameters[ASSETS_PARAM_CNT + 3],  # last_profit_update
             parameters[ASSETS_PARAM_CNT + 4],  # balance_of_self
-            parameters[ASSETS_PARAM_CNT + 5],  # block.timestamp
+            ts,  # block.timestamp
         )
 
 @view
-@internal
-def _total_assets(parameters: uint256[ASSETS_PARAM_CNT + SUPPLY_PARAM_CNT]) -> uint256:
+def _total_assets(parameters: uint256[ALL_PARAM_CNT]) -> uint256:
     """
     @notice Total amount of assets that are in the vault and in the strategies.
     """
+    # return self.total_idle + self.total_debt
     return parameters[0] + parameters[1]
 
 
 @external
 def update_price(
     _parameters: uint256[ASSETS_PARAM_CNT + SUPPLY_PARAM_CNT],
+    _ts: uint256,
 ) -> uint256:
     """
     @notice Update price using `_parameters`
-    @param _parameters Parameters of
+    @param _parameters Parameters of Yearn Vault to calculate scrvUSD price
+    @param _ts Timestamp at which these parameters are true
     @return Relative price change of final price with 10^18 precision
     """
     assert msg.sender == self.prover
 
     current_price: uint256 = self._price_per_share(block.timestamp)
     new_price: uint256 = self._total_assets(_parameters) * 10 ** 18 //\
-        self._total_supply(_parameters)
+        self._total_supply(_parameters, _ts)
 
     # Price is always growing and updates are never from future,
     # hence allow only increasing updates
