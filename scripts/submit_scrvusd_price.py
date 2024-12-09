@@ -48,10 +48,11 @@ BLOCK_HEADER = (
 
 def serialize_block(block):
     block_header = [
-        HexBytes("0x") if isinstance((v := block[k]), int) and v == 0 else HexBytes(v)
+        HexBytes("0x") if (isinstance((v := block[k]), int) and v == 0) or v == "0x0" else HexBytes(block[k])
         for k in BLOCK_HEADER
         if k in block
     ]
+    block_header[14] = HexBytes("0x0000000000000000")  # nonce
     return rlp.encode(block_header)
 
 
