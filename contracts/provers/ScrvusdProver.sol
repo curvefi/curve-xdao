@@ -69,18 +69,18 @@ contract ScrvusdProver {
 
         // iterate over proofs
         uint256[PROOF_CNT] memory PARAM_SLOTS = [
-            0, // filler
+            uint256(0), // filler, account proof, no slot
 
             // Assets parameters
-            uint256(21),  // total_debt
-            22,  // total_idle
+            21, // total_debt
+            22, // total_idle
 
             // Supply parameters
-            20,  // totalSupply
-            38,  // full_profit_unlock_date
-            39,  // profit_unlocking_rate
-            40,  // last_profit_update
-            uint256(keccak256(abi.encode(18, SCRVUSD)))  // balance_of_self
+            20, // totalSupply
+            38, // full_profit_unlock_date
+            39, // profit_unlocking_rate
+            40, // last_profit_update
+            uint256(keccak256(abi.encode(18, SCRVUSD))) // balance_of_self
         ];
         uint256[PARAM_CNT] memory params;
         Verifier.SlotValue memory slot;
@@ -90,7 +90,7 @@ contract ScrvusdProver {
                 account.storageRoot,
                 proofs[idx].toList()
             );
-            // Some slots may not be used => not exist, e.g. total_idle
+            // Some slots may not be used => not exist, e.g. total_debt
             // require(slot.exists);
 
             params[idx - 1] = slot.value;
