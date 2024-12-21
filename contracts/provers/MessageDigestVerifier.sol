@@ -17,9 +17,9 @@ interface IRelayer {
     function relay(uint256 agent, Message[] calldata messages) external;
 }
 
-/// @title Message Digest Prover
+/// @title Message Digest Verifier
 /// @author Curve Finance
-contract MessageDigestProver {
+contract MessageDigestVerifier {
     using RLPReader for bytes;
     using RLPReader for RLPReader.RLPItem;
 
@@ -41,12 +41,12 @@ contract MessageDigestProver {
         RELAYER = _relayer;
     }
 
-    /// Prove a message digest and optionally execute.
+    /// Verify a message digest and optionally execute.
     /// @param _agent The agent which produced the execution digest. (1 = OWNERSHIP, 2 = PARAMETER, 4 = EMERGENCY)
     /// @param _messages The sequence of messages to execute.
     /// @param _block_header_rlp The block header of any block in which the gauge has its type set.
     /// @param _proof_rlp The state proof of the gauge types.
-    function prove(
+    function verifyMessages(
         uint256 _agent,
         IRelayer.Message[] memory _messages,
         bytes memory _block_header_rlp,
@@ -72,7 +72,7 @@ contract MessageDigestProver {
 
         // convert _proof_rlp into a list of `RLPItem`s
         RLPReader.RLPItem[] memory proofs = _proof_rlp.toRlpItem().toList();
-        require(proofs.length == 2); // dev: invalid number of proofs
+        require(proofs.length == 3); // dev: invalid number of proofs
 
         // 0th proof is the account proof for the Broadcaster contract
         Verifier.Account memory account = Verifier.extractAccountFromProof(
@@ -105,6 +105,28 @@ contract MessageDigestProver {
         require(slot.exists && slot.value != 0);
         require(keccak256(abi.encode(_messages)) == bytes32(slot.value));
 
-        IRelayer(RELAYER).relay(_agent, _messages);
+        uint256 deadline = slot = Verifier.extractSlotValueFromProof(
+            keccak256(
+                abi.encode(
+                    keccak256( // self.deadline[_agent][_chain_id][_nonce]
+                        abi.encode(
+                            keccak256( // self.deadline[_agent][_chain_id]
+                                abi.encode(
+                                    keccak256(abi.encode(9, _agent)), // self.deadline[_agent]
+                                    block.chainid
+                                )
+                            ),
+                            nonce++
+                        )
+                    )
+                )
+            ),
+            account.storageRoot,
+            proofs[2].toList()
+        ).value;
+
+        if (block.timestamp <= deadline) {
+            IRelayer(RELAYER).relay(_agent, _messages);
+        }
     }
 }
