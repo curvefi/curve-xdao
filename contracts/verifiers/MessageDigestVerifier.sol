@@ -6,6 +6,7 @@ import {StateProofVerifier as Verifier} from "../libs/StateProofVerifier.sol";
 
 interface IBlockHashOracle {
     function get_block_hash(uint256 _number) external view returns (bytes32);
+    function get_state_root(uint256 _number) external view returns (bytes32);
 }
 
 interface IRelayer {
@@ -23,7 +24,7 @@ contract MessageDigestVerifier {
     using RLPReader for bytes;
     using RLPReader for RLPReader.RLPItem;
 
-    address constant BROADCASTER = 0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89;
+    address constant BROADCASTER = 0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc;
     bytes32 constant BROADCASTER_HASH =
         keccak256(abi.encodePacked(BROADCASTER));
 
@@ -46,19 +47,12 @@ contract MessageDigestVerifier {
     /// @param _messages The sequence of messages to execute.
     /// @param _block_header_rlp The block header of any block in which the gauge has its type set.
     /// @param _proof_rlp The state proof of the gauge types.
-    function verifyMessages(
+    function verifyMessagesByBlockHash(
         uint256 _agent,
         IRelayer.Message[] memory _messages,
         bytes memory _block_header_rlp,
         bytes memory _proof_rlp
     ) external {
-        require(
-            _agent == OWNERSHIP_AGENT ||
-                _agent == PARAMETER_AGENT ||
-                _agent == EMERGENCY_AGENT
-        );
-        require(_messages.length != 0);
-
         Verifier.BlockHeader memory block_header = Verifier.parseBlockHeader(
             _block_header_rlp
         );
@@ -70,6 +64,38 @@ contract MessageDigestVerifier {
                 )
         ); // dev: blockhash mismatch
 
+        _verifyMessages(_agent, _messages, block_header.stateRootHash, _proof_rlp);
+    }
+
+    /// Verify a message digest and optionally execute.
+    /// @param _agent The agent which produced the execution digest. (1 = OWNERSHIP, 2 = PARAMETER, 4 = EMERGENCY)
+    /// @param _messages The sequence of messages to execute.
+    /// @param _block_number Number of the block to use state root hash.
+    /// @param _proof_rlp The state proof of the gauge types.
+    function verifyMessagesByStateRoot(
+        uint256 _agent,
+        IRelayer.Message[] memory _messages,
+        uint256 _block_number,
+        bytes memory _proof_rlp
+    ) external {
+        bytes32 state_root = IBlockHashOracle(BLOCK_HASH_ORACLE).get_state_root(_block_number);
+
+        _verifyMessages(_agent, _messages, state_root, _proof_rlp);
+    }
+
+    function _verifyMessages(
+        uint256 _agent,
+        IRelayer.Message[] memory _messages,
+        bytes32 _state_root,
+        bytes memory _proof_rlp
+    ) internal {
+        require(
+            _agent == OWNERSHIP_AGENT ||
+                _agent == PARAMETER_AGENT ||
+                _agent == EMERGENCY_AGENT
+        );
+        require(_messages.length != 0);
+
         // convert _proof_rlp into a list of `RLPItem`s
         RLPReader.RLPItem[] memory proofs = _proof_rlp.toRlpItem().toList();
         require(proofs.length == 3); // dev: invalid number of proofs
@@ -77,7 +103,7 @@ contract MessageDigestVerifier {
         // 0th proof is the account proof for the Broadcaster contract
         Verifier.Account memory account = Verifier.extractAccountFromProof(
             BROADCASTER_HASH, // position of the account is the hash of its address
-            block_header.stateRootHash,
+            _state_root,
             proofs[0].toList()
         );
         require(account.exists); // dev: Broadcaster account does not exist
@@ -105,7 +131,7 @@ contract MessageDigestVerifier {
         require(slot.exists && slot.value != 0);
         require(keccak256(abi.encode(_messages)) == bytes32(slot.value));
 
-        uint256 deadline = slot = Verifier.extractSlotValueFromProof(
+        uint256 deadline = Verifier.extractSlotValueFromProof(
             keccak256(
                 abi.encode(
                     keccak256( // self.deadline[_agent][_chain_id][_nonce]
@@ -122,7 +148,7 @@ contract MessageDigestVerifier {
                 )
             ),
             account.storageRoot,
-            proofs[2].toList()
+            proofs[1].toList()
         ).value;
 
         if (block.timestamp <= deadline) {
