@@ -35,7 +35,7 @@ contract MessageDigestVerifier {
     address public immutable BLOCK_HASH_ORACLE;
     address public immutable RELAYER;
 
-    uint256 public nonce;
+    mapping (uint256 => uint256) public nonce;
 
     constructor(address _block_hash_oracle, address _relayer) {
         BLOCK_HASH_ORACLE = _block_hash_oracle;
@@ -108,6 +108,8 @@ contract MessageDigestVerifier {
         );
         require(account.exists); // dev: Broadcaster account does not exist
 
+        uint256 cur_nonce = nonce[_agent];
+
         Verifier.SlotValue memory slot = Verifier.extractSlotValueFromProof(
             keccak256(
                 abi.encode(
@@ -119,7 +121,7 @@ contract MessageDigestVerifier {
                                     block.chainid
                                 )
                             ),
-                            nonce++
+                            cur_nonce
                         )
                     )
                 )
@@ -142,15 +144,16 @@ contract MessageDigestVerifier {
                                     block.chainid
                                 )
                             ),
-                            nonce++
+                            cur_nonce
                         )
                     )
                 )
             ),
             account.storageRoot,
-            proofs[1].toList()
+            proofs[2].toList()
         ).value;
 
+        ++nonce[_agent];
         if (block.timestamp <= deadline) {
             IRelayer(RELAYER).relay(_agent, _messages);
         }
