@@ -11,7 +11,7 @@ from brownie import (
     CRVUSDLayerZeroBridge,
     CRVUSDLayerZeroBridgeETH,
     MinterProxy,
-    MessageDigestProver,
+    MessageDigestVerifier,
     XYZRelayer,
     Agent,
     history,
@@ -43,7 +43,7 @@ def main(gauge_type, lz_endpoint, lz_chain_id):
     relayer = XYZRelayer.deploy(
         agent_blueprint, deployer.get_deployment_address(deployer.nonce + 1), {"from": deployer}
     )
-    MessageDigestProver.deploy(
+    MessageDigestVerifier.deploy(
         deployer.get_deployment_address(deployer.nonce + 1), relayer, {"from": deployer}, publish_source=False
     )
 
