@@ -9,8 +9,8 @@ event SetGaugeType:
     gauge: indexed(address)
     type: uint256
 
-event SetProver:
-    prover: address
+event SetVerifier:
+    verifier: address
 
 event TransferOwnership:
     owner: indexed(address)
@@ -18,7 +18,7 @@ event TransferOwnership:
 
 gauge_type: HashMap[address, uint256]  # a value of 0 signifies the account is not a valid gauge
 
-prover: public(address)
+verifier: public(address)
 
 owner: public(address)
 future_owner: public(address)
@@ -47,21 +47,21 @@ def set_gauge_type(_gauge: address, _type: uint256):
     @dev This method will increment the value of `_type` by 1 prior to storing,
         since a value of 0 signifies an invalid gauge.
     """
-    assert msg.sender in [self.owner, self.prover]  # dev: only owner
+    assert msg.sender in [self.owner, self.verifier]  # dev: only owner
 
     self.gauge_type[_gauge] = _type + 1
     log SetGaugeType(_gauge, _type)
 
 
 @external
-def set_prover(_prover: address):
+def set_verifier(_verifier: address):
     """
-    @notice Set the account with prover permissions.
+    @notice Set the account with verifier permissions.
     """
     assert msg.sender == self.owner
 
-    self.prover = _prover
-    log SetProver(_prover)
+    self.verifier = _verifier
+    log SetVerifier(_verifier)
 
 
 @external
