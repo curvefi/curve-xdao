@@ -110,7 +110,7 @@
 - Token (SCRVUSD) - [`0x8Fb3Ec8f2d1Dc089E70CD61f1E49496d443B2124`](https://sonicscan.org/address/0x8Fb3Ec8f2d1Dc089E70CD61f1E49496d443B2124#code)
 - Gauge Type Oracle - [`0x74d6aABD6197E83d963F0B48be9C034F93E8E66d`](https://sonicscan.org/address/0x74d6aABD6197E83d963F0B48be9C034F93E8E66d#code)
 - Gauge Type Verifier - [`0x47ca04Ee05f167583122833abfb0f14aC5677Ee4`](https://sonicscan.org/address/0x47ca04Ee05f167583122833abfb0f14aC5677Ee4#code)
-- Message Digest Verifier - [`0x3d8EADb739D1Ef95dd53D718e4810721837c69c1`](https://sonicscan.org/address/0x3d8EADb739D1Ef95dd53D718e4810721837c69c1#code)
+- Message Digest Verifier - [`0xF3daD3Ca2eF135b248128Ab1Ed984FB6F2185CBf`](https://sonicscan.org/address/0xF3daD3Ca2eF135b248128Ab1Ed984FB6F2185CBf#code)
 
 ### KAVA
 
