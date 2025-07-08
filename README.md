@@ -29,7 +29,8 @@
 - AVAX Bridge (LayerZero) - [`0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8`](https://etherscan.io/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8#code)
 - BNB Bridge (LayerZero) - [`0xAE0666C978500f2C05784242B79B08C478Dd999c`](https://etherscan.io/address/0xAE0666C978500f2C05784242B79B08C478Dd999c#code)
 - FTM Bridge (LayerZero) - [`0x08132eA9b02750E118cF5F5C640B7c46A8E638E8`](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8#code)
-- S Bridge (LayerZero)- [`0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C`](https://etherscan.io/address/0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C#code)
+- S Bridge (LayerZero) - [`0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C`](https://etherscan.io/address/0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C#code)
+- XDC Bridge (LayerZero) - [`0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0`](https://etherscan.com/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0#code)
 
 #### Keepers (Block Hash Sender)
 
@@ -117,6 +118,7 @@
 - CRV ETH Bridge (LayerZero) - [`0x3C8D2A033131551a3f09E7b5c07DB01d547311CC`](https://kavascan.com/address/0x3C8D2A033131551a3f09E7b5c07DB01d547311CC#code)
 - crvUSD ETH Bridge (LayerZero) - [`0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc`](https://kavascan.com/address/0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc#code)
 
+
 - Block Hash Oracle - [`0x05d4E2Ed7216A204e5FB4e3F5187eCfaa5eF3Ef7`](https://kavascan.com/address/0x05d4E2Ed7216A204e5FB4e3F5187eCfaa5eF3Ef7#code)
 - Minter - [`0x65a0b01756E837e6670634816E4F5B3a3fF21107`](https://kavascan.com/address/0x65a0b01756E837e6670634816E4F5B3a3fF21107#code)
 - Minter (CRVUSD) - [`0xEfDE221f306152971D8e9f181bFe998447975810`](https://kavascan.com/address/0xEfDE221f306152971D8e9f181bFe998447975810#code)
@@ -125,6 +127,14 @@
 - Gauge Type Oracle - [`0x1E7B1Bd0490ddE12F6E3d09766Beb05552AFe27A`](https://kavascan.com/address/0x1E7B1Bd0490ddE12F6E3d09766Beb05552AFe27A#code)
 - Gauge Type Prover - [`0x64ed8CfF5Ad3DaEb217abE03a00Ff2D90b86456b`](https://kavascan.com/address/0x64ed8CfF5Ad3DaEb217abE03a00Ff2D90b86456b#code)
 - Message Digest Prover - [`0x5373E1B9f2781099f6796DFe5D68DE59ac2F18E3`](https://kavascan.com/address/0x5373E1B9f2781099f6796DFe5D68DE59ac2F18E3#code)
+
+### XDC
+
+- scrvUSD ETH Bridge (LayerZero) - [`0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0`](https://xdcscan.com/address/0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0#code)
+
+
+- Minter (SCRVUSD) - [`0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5`](https://xdcscan.com/address/0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5#code)
+- Token (SCRVUSD) - [`0x3d8EADb739D1Ef95dd53D718e4810721837c69c1`](https://xdcscan.org/address/0x3d8EADb739D1Ef95dd53D718e4810721837c69c1#code)
 
 ### Polygon
 
