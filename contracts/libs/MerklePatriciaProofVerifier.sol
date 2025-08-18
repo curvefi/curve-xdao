@@ -43,7 +43,7 @@ library MerklePatriciaProofVerifier {
             // Root hash of empty Merkle-Patricia-Trie
             require(
                 rootHash ==
-                    0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421
+                    0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421 // keccak256(0x80)
             );
             return new bytes(0);
         }
