@@ -127,7 +127,7 @@ library MerklePatriciaProofVerifier {
 
                     if (!node[1].isList()) {
                         // rlp(child) was at least 32 bytes. node[1] contains
-                        // Keccak256(rlp(child)).
+                        // rlp(Keccak256(rlp(child))).
                         nodeHashHash = node[1].payloadKeccak256();
                     } else {
                         // rlp(child) was less than 32 bytes. node[1] contains
