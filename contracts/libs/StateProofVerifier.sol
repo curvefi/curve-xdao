@@ -11,6 +11,10 @@ library StateProofVerifier {
     using RLPReader for RLPReader.RLPItem;
     using RLPReader for bytes;
 
+    error BlockhashMismatch();
+    error HeaderTooShort();
+    error BadAccount();
+
     uint256 constant HEADER_STATE_ROOT_INDEX = 3;
     uint256 constant HEADER_NUMBER_INDEX = 8;
     uint256 constant HEADER_TIMESTAMP_INDEX = 11;
@@ -45,7 +49,9 @@ library StateProofVerifier {
     {
         BlockHeader memory header = parseBlockHeader(_headerRlpBytes);
         // ensure that the block is actually in the blockchain
-        require(header.hash == blockhash(header.number), "blockhash mismatch");
+        if (header.hash != blockhash(header.number)) {
+            revert BlockhashMismatch();
+        }
         return header;
     }
 
@@ -60,7 +66,9 @@ library StateProofVerifier {
         BlockHeader memory result;
         RLPReader.RLPItem[] memory headerFields = _headerRlpBytes.toRlpItem().toList();
 
-        require(headerFields.length > HEADER_TIMESTAMP_INDEX);
+        if (headerFields.length <= HEADER_TIMESTAMP_INDEX) {
+            revert BlockhashMismatch();
+        }
 
         result.stateRootHash = bytes32(headerFields[HEADER_STATE_ROOT_INDEX].toUint());
         result.number = headerFields[HEADER_NUMBER_INDEX].toUint();
@@ -97,7 +105,9 @@ library StateProofVerifier {
         }
 
         RLPReader.RLPItem[] memory acctFields = acctRlpBytes.toRlpItem().toList();
-        require(acctFields.length == 4);
+        if (acctFields.length != 4) {
+            revert BadAccount();
+        }
 
         account.exists = true;
         account.nonce = acctFields[0].toUint();

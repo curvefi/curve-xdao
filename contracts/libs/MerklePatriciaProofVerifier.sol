@@ -14,6 +14,19 @@ library MerklePatriciaProofVerifier {
     using RLPReader for RLPReader.RLPItem;
     using RLPReader for bytes;
 
+    error BadEmptyRootHash();
+    error BadRootHash();
+    error BadNodeHash();
+    error DivergentNode();
+    error LeafNode();
+    error NotNibble();
+    error ExtensionAtLastLevel();
+    error NotLastLevel();
+    error NoChild();
+    error EmptyInput();
+    error BadSkipNibbles();
+    error Unreachable();
+
     /// @dev Validates a Merkle-Patricia-Trie proof.
     ///      If the proof proves the inclusion of some key-value pair in the
     ///      trie, the value is returned. Otherwise, i.e. if the proof proves
@@ -30,7 +43,7 @@ library MerklePatriciaProofVerifier {
         bytes32 rootHash,
         bytes memory path,
         RLPReader.RLPItem[] memory stack
-    ) internal pure returns (bytes memory value) {
+    ) internal pure returns (bytes memory) {
         bytes memory mptKey = _decodeNibbles(path, 0);
         uint256 mptKeyOffset = 0;
 
@@ -41,10 +54,11 @@ library MerklePatriciaProofVerifier {
 
         if (stack.length == 0) {
             // Root hash of empty Merkle-Patricia-Trie
-            require(
-                rootHash ==
+            if (rootHash !=
                     0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421 // keccak256(0x80)
-            );
+            ) {
+                revert BadEmptyRootHash();
+            }
             return new bytes(0);
         }
 
@@ -56,12 +70,12 @@ library MerklePatriciaProofVerifier {
 
             // The root node is hashed with Keccak-256 ...
             if (i == 0 && rootHash != stack[i].rlpBytesKeccak256()) {
-                revert();
+                revert BadRootHash();
             }
             // ... whereas all other nodes are hashed with the MPT
             // hash function.
             if (i != 0 && nodeHashHash != _mptHashHash(stack[i])) {
-                revert();
+                revert BadNodeHash();
             }
             // We verified that stack[i] has the correct hash, so we
             // may safely decode it.
@@ -98,7 +112,7 @@ library MerklePatriciaProofVerifier {
                     // Sanity check
                     if (i < stack.length - 1) {
                         // divergent node must come last in proof
-                        revert();
+                        revert DivergentNode();
                     }
 
                     return new bytes(0);
@@ -108,7 +122,7 @@ library MerklePatriciaProofVerifier {
                     // Sanity check
                     if (i < stack.length - 1) {
                         // leaf node must come last in proof
-                        revert();
+                        revert LeafNode();
                     }
 
                     if (mptKeyOffset < mptKey.length) {
@@ -122,7 +136,7 @@ library MerklePatriciaProofVerifier {
                     // Sanity check
                     if (i == stack.length - 1) {
                         // shouldn't be at last level
-                        revert();
+                        revert ExtensionAtLastLevel();
                     }
 
                     if (!node[1].isList()) {
@@ -144,14 +158,14 @@ library MerklePatriciaProofVerifier {
                     mptKeyOffset += 1;
                     if (nibble >= 16) {
                         // each element of the path has to be a nibble
-                        revert();
+                        revert NotNibble();
                     }
 
                     if (_isEmptyBytesequence(node[nibble])) {
                         // Sanity
                         if (i != stack.length - 1) {
                             // leaf node should be at last level
-                            revert();
+                            revert LeafNode();
                         }
 
                         return new bytes(0);
@@ -164,7 +178,7 @@ library MerklePatriciaProofVerifier {
                     // Sanity
                     if (i == stack.length - 1) {
                         // need to process the child now
-                        revert();
+                        revert NoChild();
                     }
                 } else {
                     // we have consumed the entire mptKey, so we need to look at what's contained in this node.
@@ -172,13 +186,14 @@ library MerklePatriciaProofVerifier {
                     // Sanity
                     if (i != stack.length - 1) {
                         // should be at last level
-                        revert();
+                        revert NotLastLevel();
                     }
 
                     return node[16].toBytes();
                 }
             }
         }
+        revert Unreachable();
     }
 
     /// @dev Computes the hash of the Merkle-Patricia-Trie hash of the RLP item.
@@ -217,7 +232,9 @@ library MerklePatriciaProofVerifier {
     function _merklePatriciaCompactDecode(
         bytes memory compact
     ) private pure returns (bool isLeaf, bytes memory nibbles) {
-        require(compact.length > 0);
+        if (compact.length == 0) {
+            revert EmptyInput();
+        }
         uint256 first_nibble = (uint8(compact[0]) >> 4) & 0xF;
         uint256 skipNibbles;
         if (first_nibble == 0) {
@@ -234,7 +251,7 @@ library MerklePatriciaProofVerifier {
             isLeaf = true;
         } else {
             // Not supposed to happen!
-            revert();
+            revert Unreachable();
         }
         return (isLeaf, _decodeNibbles(compact, skipNibbles));
     }
@@ -243,10 +260,14 @@ library MerklePatriciaProofVerifier {
         bytes memory compact,
         uint256 skipNibbles
     ) private pure returns (bytes memory nibbles) {
-        require(compact.length > 0);
+        if (compact.length == 0) {
+            revert EmptyInput();
+        }
 
         uint256 length = compact.length * 2;
-        require(skipNibbles <= length);
+        if (skipNibbles > length) {
+            revert BadSkipNibbles();
+        }
         length -= skipNibbles;
 
         nibbles = new bytes(length);
