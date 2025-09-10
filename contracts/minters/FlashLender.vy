@@ -1,4 +1,5 @@
 # pragma version 0.4.3
+# pragma nonreentrancy on
 """
 @title crvUSD FlashLender
 @notice ERC3156 contract for crvUSD flash loans

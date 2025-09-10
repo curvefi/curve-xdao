@@ -1,4 +1,5 @@
 # pragma version 0.4.3
+# pragma nonreentrancy on
 """
 @title MintRedeemer
 @notice Mint and Redeem functionality for scrvUSD/crvUSD
