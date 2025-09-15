@@ -50,8 +50,6 @@ library MerklePatriciaProofVerifier {
         bytes32 nodeHashHash;
         RLPReader.RLPItem[] memory node;
 
-        RLPReader.RLPItem memory rlpValue;
-
         if (stack.length == 0) {
             // Root hash of empty Merkle-Patricia-Trie
             if (rootHash !=
@@ -129,8 +127,7 @@ library MerklePatriciaProofVerifier {
                         return new bytes(0);
                     }
 
-                    rlpValue = node[1];
-                    return rlpValue.toBytes();
+                    return node[1].toBytes();
                 } else {
                     // extension
                     // Sanity check
