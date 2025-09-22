@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Curve Token Bridges</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .filters {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .filter-group label {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        select, input {
+            font-family: monospace;
+            padding: 5px;
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+        select:focus, input:focus {
+            outline: none;
+            background-color: #f0f0f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        a {
+            color: #000;
+            text-decoration: underline;
+        }
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .note {
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .hidden {
+            display: none;
+        }
+        .low-supply-row {
+            opacity: 0.6;
+            background-color: #f8f8f8;
+        }
+        
+        .chain-tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .chain-tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            pointer-events: none;
+        }
+        
+        .chain-tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        
+        .chain-tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .chain-logo {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        
+        /* Make logo column narrow */
+        table tr td:first-child {
+            min-width: 20px;
+            width: 20px;
+            text-align: center;
+            border-right: none;
+        }
+        
+        /* Remove border between logo and chain name columns */
+        table tr td:nth-child(2) {
+            border-left: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Curve Token Bridges</h1>
+    
+    <div class="filters">
+        <div class="filter-group">
+            <label for="chainFilter">Filter by Chain:</label>
+            <select id="chainFilter" onchange="filterTable()">
+                <option value="">All Chains</option>
+                <option value="Ethereum">Ethereum</option>
+                <option value="Arbitrum">Arbitrum</option>
+                <option value="Optimism">Optimism</option>
+                <option value="Base">Base</option>
+                <option value="Polygon">Polygon</option>
+                <option value="Gnosis">Gnosis</option>
+                <option value="Fantom">Fantom</option>
+                <option value="BSC">BSC</option>
+                <option value="Avalanche">Avalanche</option>
+                <option value="Fraxtal">Fraxtal</option>
+                <option value="Sonic">Sonic</option>
+                <option value="Taiko">Taiko</option>
+                <option value="XDC">XDC</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="tokenFilter">Filter by Token:</label>
+            <select id="tokenFilter" onchange="filterTable()">
+                <option value="">All Tokens</option>
+                <option value="CRV">CRV</option>
+                <option value="crvUSD">crvUSD</option>
+                <option value="scrvUSD">scrvUSD</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label for="searchInput">Search:</label>
+            <input type="text" id="searchInput" placeholder="Search chains, tokens, bridges..." onkeyup="filterTable()">
+        </div>
+    </div>
+    
+    <table>
+        <tr>
+            <th></th>
+            <th>Chain</th>
+            <th>Token</th>
+            <th>Total Supply</th>
+            <th>Bridge Used</th>
+            <th>ETH to Chain</th>
+            <th>Chain to ETH</th>
+            <th>Bridge UI Link</th>
+            <th>CrossCurve</th>
+        </tr>
+        
+        <!-- Ethereum (Native) -->
+        <tr>
+            <td>Ethereum</td>
+            <td><a href="https://etherscan.io/token/0xD533a949740bb3306d119CC777fa900bA034cd52">CRV</a></td>
+            <td class="total-supply" data-chain="ethereum" data-token="0xD533a949740bb3306d119CC777fa900bA034cd52">Loading...</td>
+            <td>Native</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=13&inputToken=0xD533a949740bb3306d119CC777fa900bA034cd52">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Ethereum</td>
+            <td><a href="https://etherscan.io/token/0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E">crvUSD</a></td>
+            <td class="total-supply" data-chain="ethereum" data-token="0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E">Loading...</td>
+            <td>Native</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=13&inputToken=0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Ethereum</td>
+            <td><a href="https://etherscan.io/token/0x0655977FEb2f289A4aB78af67BAB0d17aAb84367">scrvUSD</a></td>
+            <td class="total-supply" data-chain="ethereum" data-token="0x0655977FEb2f289A4aB78af67BAB0d17aAb84367">Loading...</td>
+            <td>Native</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <!-- L2 Bridges -->
+        <tr>
+            <td>Arbitrum</td>
+            <td><a href="https://arbiscan.io/token/0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978">CRV</a></td>
+            <td class="total-supply" data-chain="arbitrum" data-token="0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978">Loading...</td>
+            <td>Arbitrum Bridge</td>
+            <td>~10 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.arbitrum.io/?token=0xD533a949740bb3306d119CC777fa900bA034cd52">Arbitrum Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=7&inputToken=0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Arbitrum</td>
+            <td><a href="https://arbiscan.io/token/0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5">crvUSD</a></td>
+            <td class="total-supply" data-chain="arbitrum" data-token="0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5">Loading...</td>
+            <td>Arbitrum Bridge</td>
+            <td>~10 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.arbitrum.io/?token=0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E">Arbitrum Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=7&inputToken=0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Optimism</td>
+            <td><a href="https://optimistic.etherscan.io/token/0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53">CRV</a></td>
+            <td class="total-supply" data-chain="optimism" data-token="0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53">Loading...</td>
+            <td>Optimism Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://app.optimism.io/bridge">Optimism Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=19&inputToken=0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Optimism</td>
+            <td><a href="https://optimistic.etherscan.io/token/0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6">crvUSD</a></td>
+            <td class="total-supply" data-chain="optimism" data-token="0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6">Loading...</td>
+            <td>Optimism Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://app.optimism.io/bridge">Optimism Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=19&inputToken=0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Optimism</td>
+            <td><a href="https://optimistic.etherscan.io/token/0x289f635106d5b822a505b39ac237a0ae9189335b">scrvUSD</a></td>
+            <td class="total-supply" data-chain="optimism" data-token="0x289f635106d5b822a505b39ac237a0ae9189335b">Loading...</td>
+            <td>Optimism Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://app.optimism.io/bridge">Optimism Bridge</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Base</td>
+            <td><a href="https://basescan.org/token/0x8Ee73c484A26e0A5df2Ee2a4960B789967dd0415">CRV</a></td>
+            <td class="total-supply" data-chain="base" data-token="0x8Ee73c484A26e0A5df2Ee2a4960B789967dd0415">Loading...</td>
+            <td>Base Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.base.org/">Base Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=21&inputToken=0x8Ee73c484A26e0A5df2Ee2a4960B789967dd0415">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Base</td>
+            <td><a href="https://basescan.org/token/0x417Ac0e078398C154EdFadD9Ef675d30Be60Af93">crvUSD</a></td>
+            <td class="total-supply" data-chain="base" data-token="0x417Ac0e078398C154EdFadD9Ef675d30Be60Af93">Loading...</td>
+            <td>Base Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.base.org/">Base Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=21&inputToken=0x417Ac0e078398C154EdFadD9Ef675d30Be60Af93">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Base</td>
+            <td><a href="https://basescan.org/token/0x646a737b9b6024e49f5908762b3ff73e65b5160c">scrvUSD</a></td>
+            <td class="total-supply" data-chain="base" data-token="0x646a737b9b6024e49f5908762b3ff73e65b5160c">Loading...</td>
+            <td>Base Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.base.org/">Base Bridge</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Polygon</td>
+            <td><a href="https://polygonscan.com/token/0x172370d5Cd63279eFa6d502DAB29171933a610AF">CRV</a></td>
+            <td>Polygon Bridge</td>
+            <td>~30 min</td>
+            <td>~3 hours</td>
+            <td><a href="https://portal.polygon.technology/bridge">Polygon Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=3&inputToken=0x172370d5Cd63279eFa6d502DAB29171933a610AF">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Polygon</td>
+            <td><a href="https://polygonscan.com/token/0xc4Ce1D6F5D98D65eE25Cf85e9F2E9DcFEe6Cb5d6">crvUSD</a></td>
+            <td>Polygon Bridge</td>
+            <td>~30 min</td>
+            <td>~3 hours</td>
+            <td><a href="https://portal.polygon.technology/bridge">Polygon Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=3&inputToken=0xc4Ce1D6F5D98D65eE25Cf85e9F2E9DcFEe6Cb5d6">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Gnosis</td>
+            <td><a href="https://gnosisscan.io/token/0x712b3d230F3C1c19db860d80619288b1F0BDd0Bd">CRV</a></td>
+            <td>Gnosis Bridge</td>
+            <td>~5 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.gnosischain.com/?fromChainId=100&token=0x712b3d230F3C1c19db860d80619288b1F0BDd0Bd&amount=">Gnosis Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=27&inputToken=0x712b3d230F3C1c19db860d80619288b1F0BDd0Bd">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Gnosis</td>
+            <td><a href="https://gnosisscan.io/token/0xaBEf652195F98A91E490f047A5006B71c85f058d">crvUSD</a></td>
+            <td>Gnosis Bridge</td>
+            <td>~5 min</td>
+            <td>~7 days</td>
+            <td><a href="https://bridge.gnosischain.com/?fromChainId=100&token=0xaBEf652195F98A91E490f047A5006B71c85f058d&amount=">Gnosis Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=27&inputToken=0xaBEf652195F98A91E490f047A5006B71c85f058d">CrossCurve</a></td>
+        </tr>
+        
+        <!-- Side-chain Bridges (Custom Infrastructure) -->
+        <tr>
+            <td>Fantom</td>
+            <td><a href="https://ftmscan.com/token/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3">CRV</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td><a href="https://crvhub.com/bridge">CRV Hub Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=15&inputToken=0xE6c259bc0FCE25b71fE95A00361D3878E16232C3">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Fantom</td>
+            <td><a href="https://ftmscan.com/token/0xe6c259bc0fce25b71fe95a00361d3878e16232c3">crvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=15&inputToken=0xe6c259bc0fce25b71fe95a00361d3878e16232c3&outputChainId=13">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>BSC</td>
+            <td><a href="https://bscscan.com/token/0x9996D0276612d23b35f90C51EE935520B3d7355B">CRV</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=1&inputToken=0x9996D0276612d23b35f90C51EE935520B3d7355B">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>BSC</td>
+            <td><a href="https://bscscan.com/token/0xe2fb3F127f5450DeE44afe054385d74C392BdeF4">crvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=1&inputToken=0xe2fb3F127f5450DeE44afe054385d74C392BdeF4">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>BSC</td>
+            <td><a href="https://bscscan.com/token/0x0094Ad026643994c8fB2136ec912D508B15fe0E5">scrvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Avalanche</td>
+            <td><a href="https://snowtrace.io/token/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B">CRV</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=9&inputToken=0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Avalanche</td>
+            <td><a href="https://snowtrace.io/token/0xCb7c161602d04C4e8aF1832046EE08AAF96d855D">crvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=9&inputToken=0xCb7c161602d04C4e8aF1832046EE08AAF96d855D">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Avalanche</td>
+            <td><a href="https://snowtrace.io/token/0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64">scrvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Fraxtal</td>
+            <td><a href="https://fraxscan.com/token/0x331b9182088e2a7d6d3fe4742aba1fb231aecc56">CRV</a></td>
+            <td>Fraxtal Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://frax.com/swap?tokenA=0x331b9182088e2a7d6d3fe4742aba1fb231aecc56&tokenB=0xd533a949740bb3306d119cc777fa900ba034cd52&originChainId=252&destinationChainId=1">Fraxtal Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=23&inputToken=0x331b9182088e2a7d6d3fe4742aba1fb231aecc56">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Fraxtal</td>
+            <td><a href="https://fraxscan.com/token/0xB102f7Efa0d5dE071A8D37B3548e1C7CB148Caf3">crvUSD</a></td>
+            <td>Fraxtal Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://frax.com/swap?tokenA=0xb102f7efa0d5de071a8d37b3548e1c7cb148caf3&tokenB=0xf939e0a03fb07f59a73314e73794be0e57ac1b4e&originChainId=252&destinationChainId=1">Fraxtal Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=23&inputToken=0xb102f7efa0d5de071a8d37b3548e1c7cb148caf3">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Fraxtal</td>
+            <td><a href="https://fraxscan.com/token/0xaB94C721040b33aA8b0b4D159Da9878e2a836Ed0">scrvUSD</a></td>
+            <td>Fraxtal Bridge</td>
+            <td>~2 min</td>
+            <td>~7 days</td>
+            <td><a href="https://frax.com/swap?tokenA=0xab94c721040b33aa8b0b4d159da9878e2a836ed0&tokenB=0x0655977feb2f289a4ab78af67bab0d17aab84367&originChainId=252&destinationChainId=1">Fraxtal Bridge</a></td>
+            <td></td>
+        </tr>
+        
+        <!-- Sonic Chain -->
+        <tr>
+            <td>Sonic</td>
+            <td><a href="https://sonicscan.org/token/0x5af79133999f7908953e94b7a5cf367740ebee35">CRV</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~10 min</td>
+            <td>~1 hour</td>
+            <td><a href="https://crvhub.com/bridge">CRV Hub Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=53&inputToken=0x5af79133999f7908953e94b7a5cf367740ebee35">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Sonic</td>
+            <td><a href="https://sonicscan.org/token/0x7FFf4C4a827C84E32c5E175052834111B2ccd270">crvUSD</a></td>
+            <td>Sonic Bridge</td>
+            <td>~10 min</td>
+            <td>~1 hour</td>
+            <td><a href="https://gateway.soniclabs.com/sonic/ethereum/crvusd">Sonic Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=53&inputToken=0x7FFf4C4a827C84E32c5E175052834111B2ccd270">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Sonic</td>
+            <td><a href="https://sonicscan.org/token/0xb5f0edecff09081354db252ceec000b213186fac">scrvUSD</a></td>
+            <td>Sonic Bridge</td>
+            <td>~10 min</td>
+            <td>~1 hour</td>
+            <td><a href="https://gateway.soniclabs.com/sonic/ethereum/scrvusd">Sonic Bridge</a></td>
+            <td></td>
+        </tr>
+        
+        <!-- Taiko Chain -->
+        <tr>
+            <td>Taiko</td>
+            <td><a href="https://taikoscan.xyz/token/0x09413312b263fD252C16e592A45f4689F26cb79d">CRV</a></td>
+            <td>Taiko Bridge</td>
+            <td>~2 min</td>
+            <td>~4 hours</td>
+            <td><a href="https://bridge.taiko.xyz/">Taiko Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=43&inputToken=0x09413312b263fD252C16e592A45f4689F26cb79d">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Taiko</td>
+            <td><a href="https://taikoscan.xyz/token/0xc8F4518ed4bAB9a972808a493107926cE8237068">crvUSD</a></td>
+            <td>Taiko Bridge</td>
+            <td>~2 min</td>
+            <td>~4 hours</td>
+            <td><a href="https://bridge.taiko.xyz/">Taiko Bridge</a></td>
+            <td><a href="https://app.crosscurve.fi/swap?inputChainId=43&inputToken=0xc8F4518ed4bAB9a972808a493107926cE8237068">CrossCurve</a></td>
+        </tr>
+        <tr>
+            <td>Taiko</td>
+            <td><a href="https://taikoscan.xyz/token/0x8c74d11da5E6cE0498cd280F9209dFB0C5e048A7">scrvUSD</a></td>
+            <td>Taiko Bridge</td>
+            <td>~2 min</td>
+            <td>~4 hours</td>
+            <td><a href="https://bridge.taiko.xyz/">Taiko Bridge</a></td>
+            <td></td>
+        </tr>
+        
+        <!-- XDC Chain -->
+        <tr>
+            <td>XDC</td>
+            <td><a href="https://xdcscan.io/token/0x3d8EADb739D1Ef95dd53D718e4810721837c69c1">scrvUSD</a></td>
+            <td>Custom Bridge (LayerZeroV1)</td>
+            <td>~15 min</td>
+            <td>~15 min</td>
+            <td><a href="https://crvhub.com/bridge">CRV Hub Bridge</a></td>
+            <td></td>
+        </tr>
+    </table>
+    
+    <div class="note">
+        <p><strong>Note:</strong> This table shows bridge times for CRV, crvUSD and scrvUSD tokens across different chains. L2s use native bridges with varying withdrawal times, while side-chains use custom Curve infrastructure.</p>
+        <p><strong>Bridge Types:</strong></p>
+        <ul>
+            <li><strong>Native L2 Bridges:</strong> Fast deposits (~2-30 min), slow withdrawals (~3 hours to 7 days)</li>
+            <li><strong>Custom Bridges (LayerZeroV1):</strong> ~15 minutes both ways for side-chains</li>
+        </ul>
+        <p><strong>CrossCurve:</strong> Allows bridging tokens across different sidechains/L2s directly without going through Ethereum first. This can be faster and more cost-effective than traditional bridge routes.</p>
+        <p>Information may be outdated. Please verify current bridge addresses and deployment data before use.</p>
+    </div>
+
+    <script>
+        function filterTable() {
+            const chainFilter = document.getElementById('chainFilter').value;
+            const tokenFilter = document.getElementById('tokenFilter').value;
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            
+            const table = document.querySelector('table');
+            const rows = table.querySelectorAll('tr');
+            
+            for (let i = 1; i < rows.length; i++) { // Skip header row
+                const row = rows[i];
+                
+                // Check if tooltips have been added (logo column exists)
+                let chain, token, bridge;
+                if (row.cells.length >= 9) {
+                    // Tooltips added: logo(0), chain(1), token(2), supply(3), bridge(4)
+                    const chainCell = row.cells[1];
+                    // Try to get chain name from tooltip div or direct text
+                    const tooltipDiv = chainCell.querySelector('.chain-tooltip');
+                    chain = tooltipDiv ? tooltipDiv.childNodes[0].textContent.trim() : chainCell.textContent.trim();
+                    token = row.cells[2].textContent;
+                    bridge = row.cells[4].textContent.toLowerCase();
+                } else {
+                    // Original structure: chain(0), token(1), supply(2), bridge(3)
+                    chain = row.cells[0].textContent.trim();
+                    token = row.cells[1].textContent;
+                    bridge = row.cells[3].textContent.toLowerCase();
+                }
+                
+                let showRow = true;
+                
+                // Chain filter - exact match
+                if (chainFilter && chain !== chainFilter) {
+                    showRow = false;
+                }
+                
+                // Token filter - exact match
+                if (tokenFilter && token !== tokenFilter) {
+                    showRow = false;
+                }
+                
+                // Search filter - partial match for search input
+                if (searchInput) {
+                    const rowText = (chain + ' ' + token + ' ' + bridge).toLowerCase();
+                    if (!rowText.includes(searchInput)) {
+                        showRow = false;
+                    }
+                }
+                
+                // Show/hide row
+                if (showRow) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            }
+        }
+        
+        // Clear filters function
+        function clearFilters() {
+            document.getElementById('chainFilter').value = '';
+            document.getElementById('tokenFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            filterTable();
+        }
+        
+        // Add clear button
+        document.addEventListener('DOMContentLoaded', function() {
+            const filtersDiv = document.querySelector('.filters');
+            const clearButton = document.createElement('div');
+            clearButton.className = 'filter-group';
+            clearButton.innerHTML = `
+                <label>&nbsp;</label>
+                <button onclick="clearFilters()" style="font-family: monospace; padding: 5px; border: 1px solid #000; background-color: #fff; cursor: pointer;">Clear All</button>
+            `;
+            filtersDiv.appendChild(clearButton);
+            
+            // Add total supply columns to remaining rows
+            addTotalSupplyColumns();
+            
+            // Load deployment data and update token links
+            loadDeploymentData();
+            
+            // Load total supplies
+            loadTotalSupplies();
+        });
+        
+        // RPC endpoints for different chains
+        const rpcEndpoints = {
+            ethereum: 'https://eth.llamarpc.com',
+            arbitrum: 'https://arb1.arbitrum.io/rpc',
+            optimism: 'https://mainnet.optimism.io',
+            base: 'https://mainnet.base.org',
+            polygon: 'https://polygon-rpc.com',
+            gnosis: 'https://rpc.gnosischain.com',
+            fantom: 'https://rpc.ftm.tools',
+            bsc: 'https://bsc-dataseed.binance.org',
+            avalanche: 'https://api.avax.network/ext/bc/C/rpc',
+            fraxtal: 'https://rpc.frax.com',
+            sonic: 'https://rpc.soniclabs.com',
+            taiko: 'https://rpc.taiko.xyz',
+            xdc: 'https://erpc.xinfin.network'
+        };
+        
+        // ERC20 totalSupply function selector
+        const totalSupplySelector = '0x18160ddd';
+        
+        
+        // Chain name mapping
+        const chainMapping = {
+            'Polygon': 'polygon',
+            'Gnosis': 'gnosis',
+            'Fantom': 'fantom',
+            'BSC': 'bsc',
+            'Avalanche': 'avalanche',
+            'Fraxtal': 'fraxtal',
+            'Sonic': 'sonic',
+            'Taiko': 'taiko',
+            'XDC': 'xdc'
+        };
+        
+        // Chain name to deployment data key mapping
+        const chainToDeploymentKey = {
+            'Ethereum': 'ethereum',
+            'Arbitrum': 'arbitrum',
+            'Optimism': 'optimism',
+            'Base': 'base',
+            'Polygon': 'polygon',
+            'Gnosis': 'gnosis',
+            'Fantom': 'fantom',
+            'BSC': 'bsc',
+            'Avalanche': 'avalanche',
+            'Fraxtal': 'fraxtal',
+            'Sonic': 'sonic',
+            'Taiko': 'taiko',
+            'XDC': 'xdc'
+        };
+        
+        const chainIds = {
+            'Ethereum': 1,
+            'Arbitrum': 42161,
+            'Optimism': 10,
+            'Base': 8453,
+            'Polygon': 137,
+            'Gnosis': 100,
+            'Fantom': 250,
+            'BSC': 56,
+            'Avalanche': 43114,
+            'Fraxtal': 2522,
+            'Sonic': 146,
+            'Taiko': 42793,
+            'XDC': 50
+        };
+        
+        // Centralized token addresses cache
+        const tokenAddresses = {
+            'Ethereum': {
+                'CRV': '0xD533a949740bb3306d119CC777fa900bA034cd52',
+                'crvUSD': '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
+                'scrvUSD': '0x0655977FEb2f289A4aB78af67BAB0d17aAb84367'
+            },
+            'Arbitrum': {
+                'CRV': '0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978',
+                'crvUSD': '0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5'
+            },
+            'Optimism': {
+                'CRV': '0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53',
+                'crvUSD': '0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6',
+                'scrvUSD': '0x289f635106d5b822a505b39ac237a0ae9189335b'
+            },
+            'Base': {
+                'CRV': '0x8Ee73c484A26e0A5df2Ee2a4960B789967dd0415',
+                'crvUSD': '0x417Ac0e078398C154EdFadD9Ef675d30Be60Af93',
+                'scrvUSD': '0x646a737b9b6024e49f5908762b3ff73e65b5160c'
+            },
+            'Polygon': {
+                'CRV': '0x172370d5Cd63279eFa6d502DAB29171933a610AF',
+                'crvUSD': '0xc4Ce1D6F5D98D65eE25Cf85e9F2E9DcFEe6Cb5d6'
+            },
+            'Gnosis': {
+                'CRV': '0x712b3d230F3C1c19db860d80619288b1F0BDd0Bd',
+                'crvUSD': '0xaBEf652195F98A91E490f047A5006B71c85f058d'
+            },
+            'Fantom': {
+                'CRV': '0xE6c259bc0FCE25b71fE95A00361D3878E16232C3',
+                'scrvUSD': '0x5191946500e75f0A74476F146dF7d386e52961d9'
+            },
+            'BSC': {
+                'CRV': '0x9996D0276612d23b35f90C51EE935520B3d7355B',
+                'crvUSD': '0xe2fb3F127f5450DeE44afe054385d74C392BdeF4',
+                'scrvUSD': '0x0094Ad026643994c8fB2136ec912D508B15fe0E5'
+            },
+            'Avalanche': {
+                'CRV': '0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B',
+                'crvUSD': '0xCb7c161602d04C4e8aF1832046EE08AAF96d855D',
+                'scrvUSD': '0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64'
+            },
+            'Fraxtal': {
+                'CRV': '0x331b9182088e2a7d6d3fe4742aba1fb231aecc56',
+                'crvUSD': '0xB102f7Efa0d5dE071A8D37B3548e1C7CB148Caf3',
+                'scrvUSD': '0xaB94C721040b33aA8b0b4D159Da9878e2a836Ed0'
+            },
+            'Sonic': {
+                'CRV': '0x5af79133999f7908953e94b7a5cf367740ebee35',
+                'crvUSD': '0x7FFf4C4a827C84E32c5E175052834111B2ccd270',
+                'scrvUSD': '0xb5f0edecff09081354db252ceec000b213186fac'
+            },
+            'Taiko': {
+                'CRV': '0x09413312b263fD252C16e592A45f4689F26cb79d',
+                'crvUSD': '0xc8F4518ed4bAB9a972808a493107926cE8237068',
+                'scrvUSD': '0x8c74d11da5E6cE0498cd280F9209dFB0C5e048A7'
+            },
+            'XDC': {
+                'scrvUSD': '0x3d8EADb739D1Ef95dd53D718e4810721837c69c1'
+            }
+        };
+        
+        // Cached chain IDs for CrossCurve
+        const crossCurveChainIds = {
+            'Ethereum': 13,
+            'Arbitrum': 7,
+            'Optimism': 19,
+            'Base': 21,
+            'Polygon': 3,
+            'Gnosis': 27,
+            'Fantom': 15,
+            'BSC': 1,
+            'Avalanche': 9,
+            'Fraxtal': 23,
+            'Sonic': 53,
+            'Taiko': 43
+        };
+        
+        
+        const chainLogos = {
+            'Ethereum': 'https://assets.coingecko.com/coins/images/279/small/ethereum.png',
+            'Arbitrum': 'https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg',
+            'Optimism': 'https://assets.coingecko.com/coins/images/25244/small/Optimism.png',
+            'Base': 'https://assets.coingecko.com/asset_platforms/images/131/small/base-network.png',
+            'Polygon': 'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png',
+            'Gnosis': 'https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png',
+            'Fantom': 'https://assets.coingecko.com/coins/images/4001/small/Fantom_round.png',
+            'BSC': 'https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png',
+            'Avalanche': 'https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png',
+            'Fraxtal': 'https://assets.coingecko.com/coins/images/13422/small/frax_logo.png',
+            'Sonic': 'https://assets.coingecko.com/coins/images/38108/standard/200x200_Sonic_Logo.png',
+            'Taiko': 'https://assets.coingecko.com/coins/images/38058/standard/icon.png',
+            'XDC': 'https://assets.coingecko.com/coins/images/2912/small/xdc-icon.png'
+        };
+        
+        // Token name mapping (JSON uses lowercase keys)
+        const tokenNameMapping = {
+            'CRV': 'crv',
+            'crvUSD': 'crvUSD',
+            'scrvUSD': 'scrvUSD'
+        };
+        
+        // Explorer URL mapping
+        const explorerUrls = {
+            'ethereum': 'https://etherscan.io/token/',
+            'arbitrum': 'https://arbiscan.io/token/',
+            'optimism': 'https://optimistic.etherscan.io/token/',
+            'base': 'https://basescan.org/token/',
+            'polygon': 'https://polygonscan.com/token/',
+            'gnosis': 'https://gnosisscan.io/token/',
+            'fantom': 'https://explorer.fantom.network/address/',
+            'bsc': 'https://bscscan.com/token/',
+            'avalanche': 'https://snowtrace.io/token/',
+            'fraxtal': 'https://fraxscan.com/token/',
+            'sonic': 'https://sonicscan.org/token/',
+            'taiko': 'https://taikoscan.xyz/token/',
+            'xdc': 'https://xdcscan.io/token/'
+        };
+        
+        // Cached token addresses (fallback if remote JSON fails)
+        const cachedTokenAddresses = {
+            'ethereum': {
+                'crv': '0xD533a949740bb3306d119CC777fa900bA034cd52',
+                'crvUSD': '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
+                'scrvUSD': '0x0655977FEb2f289A4aB78af67BAB0d17aAb84367'
+            },
+            'arbitrum': {
+                'crv': '0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978',
+                'crvUSD': '0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5'
+            },
+            'optimism': {
+                'crv': '0x0994206dfE8De6Ec6920FF4D779B0d950605Fb53',
+                'crvUSD': '0xc52d7f23a2e460248db6ee192cb23dd12bddcbf6',
+                'scrvUSD': '0x289f635106d5b822a505b39ac237a0ae9189335b'
+            },
+            'base': {
+                'crv': '0x8Ee73c484A26e0A5df2Ee2a4960B789967dd0415',
+                'crvUSD': '0x417Ac0e078398C154EdFadD9Ef675d30Be60Af93',
+                'scrvUSD': '0x646a737b9b6024e49f5908762b3ff73e65b5160c'
+            },
+            'polygon': {
+                'crv': '0x172370d5Cd63279eFa6d502DAB29171933a610AF',
+                'crvUSD': '0xc4Ce1D6F5D98D65eE25Cf85e9F2E9DcFEe6Cb5d6'
+            },
+            'gnosis': {
+                'crv': '0x712b3d230F3C1c19db860d80619288b1F0BDd0Bd',
+                'crvUSD': '0xaBEf652195F98A91E490f047A5006B71c85f058d'
+            },
+            'fantom': {
+                'crv': '0xE6c259bc0FCE25b71fE95A00361D3878E16232C3',
+                'scrvUSD': '0x5191946500e75f0A74476F146dF7d386e52961d9'
+            },
+            'bsc': {
+                'crv': '0x9996D0276612d23b35f90C51EE935520B3d7355B',
+                'crvUSD': '0xe2fb3F127f5450DeE44afe054385d74C392BdeF4',
+                'scrvUSD': '0x0094Ad026643994c8fB2136ec912D508B15fe0E5'
+            },
+            'avalanche': {
+                'crv': '0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B',
+                'crvUSD': '0xCb7c161602d04C4e8aF1832046EE08AAF96d855D',
+                'scrvUSD': '0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64'
+            },
+            'fraxtal': {
+                'crv': '0x331b9182088e2a7d6d3fe4742aba1fb231aecc56',
+                'crvUSD': '0xB102f7Efa0d5dE071A8D37B3548e1C7CB148Caf3',
+                'scrvUSD': '0xaB94C721040b33aA8b0b4D159Da9878e2a836Ed0'
+            },
+            'sonic': {
+                'crv': '0x5af79133999f7908953e94b7a5cf367740ebee35',
+                'crvUSD': '0x7FFf4C4a827C84E32c5E175052834111B2ccd270',
+                'scrvUSD': '0xb5f0edecff09081354db252ceec000b213186fac'
+            },
+            'taiko': {
+                'crv': '0x09413312b263fD252C16e592A45f4689F26cb79d',
+                'crvUSD': '0xc8F4518ed4bAB9a972808a493107926cE8237068',
+                'scrvUSD': '0x8c74d11da5E6cE0498cd280F9209dFB0C5e048A7'
+            },
+            'xdc': {
+                'scrvUSD': '0x3d8EADb739D1Ef95dd53D718e4810721837c69c1'
+            }
+        };
+        
+        async function loadDeploymentData() {
+            try {
+                console.log('Attempting to fetch deployment data from GitHub...');
+                const response = await fetch('https://raw.githubusercontent.com/CurveDocs/curve-docs/master/docs/deployments/deployment-data.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const deploymentData = await response.json();
+                console.log('Successfully loaded deployment data from GitHub');
+                
+                // Update token links in the table with fresh data
+                updateTokenLinks(deploymentData, true);
+            } catch (error) {
+                console.warn('Failed to fetch deployment data from GitHub, using cached addresses:', error.message);
+                
+                // Use cached addresses as fallback
+                updateTokenLinks(cachedTokenAddresses, false);
+            }
+            
+            // Add chain tooltips after token links are updated
+            addChainTooltips();
+            
+        }
+        
+        function updateTokenLinks(deploymentData, isRemoteData = false) {
+            const rows = document.querySelectorAll('table tr');
+            
+            for (let i = 1; i < rows.length; i++) { // Skip header row
+                const row = rows[i];
+                const cells = row.querySelectorAll('td');
+                
+                if (cells.length >= 2) {
+                    const chainName = cells[0].textContent;
+                    const tokenCell = cells[1];
+                    const tokenLink = tokenCell.querySelector('a');
+                    
+                    if (tokenLink) {
+                        const tokenName = tokenLink.textContent;
+                        
+                        // Get address from centralized token addresses cache first
+                        let address = tokenAddresses[chainName] && tokenAddresses[chainName][tokenName];
+                        let addressSource = 'centralized';
+                        
+                        // If not found in centralized cache, try deployment data as fallback
+                        if (!address) {
+                            const chainKey = chainToDeploymentKey[chainName];
+                            const tokenKey = tokenNameMapping[tokenName];
+                            
+                            // First, try to get address from cached data
+                            if (chainKey && tokenKey && cachedTokenAddresses[chainKey] && cachedTokenAddresses[chainKey][tokenKey]) {
+                                address = cachedTokenAddresses[chainKey][tokenKey];
+                                addressSource = 'cached';
+                            }
+                            // If no cached address and this is remote data, try to get from remote
+                            else if (isRemoteData && chainKey && tokenKey && deploymentData[chainKey]) {
+                                // Check if it's the full deployment structure
+                                if (deploymentData[chainKey].tokens && deploymentData[chainKey].tokens[tokenKey]) {
+                                    address = deploymentData[chainKey].tokens[tokenKey];
+                                    addressSource = 'remote';
+                                }
+                            }
+                            // If this is cached data (fallback), use it directly
+                            else if (!isRemoteData && chainKey && tokenKey && deploymentData[chainKey] && deploymentData[chainKey][tokenKey]) {
+                                address = deploymentData[chainKey][tokenKey];
+                                addressSource = 'fallback';
+                            }
+                        }
+                        
+                        // Check if address exists and is not empty
+                        if (address && address.trim() !== '' && address !== '""') {
+                            // Update the link with the correct address
+                            const chainKey = chainToDeploymentKey[chainName];
+                            const explorerUrl = explorerUrls[chainKey];
+                            if (explorerUrl) {
+                                tokenLink.href = explorerUrl + address;
+                            }
+                            
+                            // Update data attributes for total supply fetching
+                            const totalSupplyCell = row.querySelector('.total-supply');
+                            if (totalSupplyCell) {
+                                totalSupplyCell.setAttribute('data-token', address);
+                            }
+                            
+                            console.log(`Updated ${chainName} ${tokenName} with address: ${address} (${addressSource})`);
+                        } else {
+                            // If address is empty or absent, hide the token row
+                            console.log(`Hiding row for ${chainName} ${tokenName} - no address found`);
+                            row.style.display = 'none';
+                        }
+                    }
+                }
+            }
+        }
+        
+        function addTotalSupplyColumns() {
+            const rows = document.querySelectorAll('table tr');
+            
+            for (let i = 1; i < rows.length; i++) { // Skip header row
+                const row = rows[i];
+                const cells = row.querySelectorAll('td');
+                
+                // Check if this row already has a total supply column
+                if (cells.length === 8) continue; // Already has total supply column
+                
+                if (cells.length === 7) { // Missing total supply column
+                    const chainName = cells[0].textContent;
+                    const tokenLink = cells[1].querySelector('a');
+                    
+                    if (tokenLink) {
+                        const tokenAddress = tokenLink.href.split('/').pop();
+                        const chainKey = chainMapping[chainName] || chainName.toLowerCase();
+                        
+                        // Create total supply cell
+                        const totalSupplyCell = document.createElement('td');
+                        totalSupplyCell.className = 'total-supply';
+                        totalSupplyCell.setAttribute('data-chain', chainKey);
+                        totalSupplyCell.setAttribute('data-token', tokenAddress);
+                        totalSupplyCell.textContent = 'Loading...';
+                        
+                        // Insert after token column (index 1)
+                        cells[1].parentNode.insertBefore(totalSupplyCell, cells[2]);
+                    }
+                }
+            }
+        }
+        
+        function addChainTooltips() {
+            try {
+                const rows = document.querySelectorAll('table tr');
+                console.log(`Adding chain tooltips to ${rows.length} rows`);
+                
+                for (let i = 1; i < rows.length; i++) { // Skip header row
+                    const row = rows[i];
+                    const cells = row.querySelectorAll('td');
+                    
+                    if (cells.length >= 1) {
+                        const chainCell = cells[0];
+                        const chainName = chainCell.textContent.trim();
+                        const chainId = chainIds[chainName];
+                        
+                        if (chainId) {
+                            // Only add tooltip if not already added
+                            if (!chainCell.querySelector('.chain-tooltip')) {
+                                // Create logo cell (first column)
+                                const logoCell = document.createElement('td');
+                                logoCell.style.textAlign = 'center';
+                                
+                                // Create chain name cell (second column) with tooltip
+                                const chainNameCell = document.createElement('td');
+                                const tooltipDiv = document.createElement('div');
+                                tooltipDiv.className = 'chain-tooltip';
+                                
+                                const tooltipText = document.createElement('span');
+                                tooltipText.className = 'tooltiptext';
+                                tooltipText.textContent = `Chain ID: ${chainId}`;
+                                
+                                // Add logo if available
+                                const logoUrl = chainLogos[chainName];
+                                if (logoUrl) {
+                                    const logoImg = document.createElement('img');
+                                    logoImg.src = logoUrl;
+                                    logoImg.alt = `${chainName} logo`;
+                                    logoImg.className = 'chain-logo';
+                                    logoImg.onload = function() {
+                                        console.log(`Logo loaded successfully for ${chainName}`);
+                                    };
+                                    logoImg.onerror = function() {
+                                        console.warn(`Failed to load logo for ${chainName}, removing it`);
+                                        this.remove();
+                                    };
+                                    logoCell.appendChild(logoImg);
+                                } else {
+                                    console.log(`No logo available for ${chainName}`);
+                                }
+                                
+                                tooltipDiv.appendChild(document.createTextNode(chainName));
+                                tooltipDiv.appendChild(tooltipText);
+                                chainNameCell.appendChild(tooltipDiv);
+                                
+                                // Replace the original chain cell with logo and chain name cells
+                                chainCell.parentNode.insertBefore(logoCell, chainCell);
+                                chainCell.parentNode.insertBefore(chainNameCell, chainCell);
+                                chainCell.remove();
+                                
+                                console.log(`Added tooltip and logo for ${chainName} (Chain ID: ${chainId})`);
+                            }
+                        } else {
+                            console.warn(`No chain ID found for: ${chainName}`);
+                        }
+                    }
+                }
+                console.log('Chain tooltips added successfully');
+            } catch (error) {
+                console.error('Error adding chain tooltips:', error);
+            }
+        }
+        
+        
+        async function loadTotalSupplies() {
+            const supplyElements = document.querySelectorAll('.total-supply');
+            
+            for (const element of supplyElements) {
+                const chain = element.dataset.chain;
+                const tokenAddress = element.dataset.token;
+                const row = element.closest('tr');
+                
+                try {
+                    const totalSupply = await getTotalSupply(chain, tokenAddress);
+                    if (totalSupply !== null) {
+                        const formattedSupply = formatNumber(totalSupply);
+                        element.textContent = formattedSupply;
+                        
+                        // Apply low-supply styling if supply is less than 1000 * 10^18
+                        if (totalSupply < 1000 * 1e18) {
+                            row.classList.add('low-supply-row');
+                        } else {
+                            row.classList.remove('low-supply-row');
+                        }
+                    } else {
+                        element.textContent = 'N/A';
+                        // Don't apply low-supply styling for N/A values
+                        row.classList.remove('low-supply-row');
+                    }
+                } catch (error) {
+                    console.error(`Error fetching supply for ${chain}:${tokenAddress}:`, error);
+                    element.textContent = 'Error';
+                    // Don't apply low-supply styling for errors
+                    row.classList.remove('low-supply-row');
+                }
+            }
+        }
+        
+        async function getTotalSupply(chain, tokenAddress) {
+            const rpcUrl = rpcEndpoints[chain];
+            if (!rpcUrl) {
+                console.error(`No RPC endpoint for chain: ${chain}`);
+                return null;
+            }
+            
+            try {
+                const response = await fetch(rpcUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        method: 'eth_call',
+                        params: [
+                            {
+                                to: tokenAddress,
+                                data: totalSupplySelector
+                            },
+                            'latest'
+                        ],
+                        id: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.result) {
+                    // Convert hex to decimal
+                    const totalSupply = parseInt(data.result, 16);
+                    // Return null if the result is NaN
+                    return isNaN(totalSupply) ? null : totalSupply;
+                } else {
+                    console.error('RPC call failed:', data);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+                return null;
+            }
+        }
+        
+        function formatNumber(num) {
+            // Convert from wei (10^18) to human readable format
+            const humanReadable = num / 1e18;
+            
+            if (humanReadable >= 1e9) {
+                return (humanReadable / 1e9).toFixed(2) + 'B';
+            } else if (humanReadable >= 1e6) {
+                return (humanReadable / 1e6).toFixed(2) + 'M';
+            } else if (humanReadable >= 1e3) {
+                return (humanReadable / 1e3).toFixed(2) + 'K';
+            } else if (humanReadable >= 1) {
+                return humanReadable.toFixed(2);
+            } else {
+                return humanReadable.toFixed(6);
+            }
+        }
+        
+    </script>
+</body>
+</html>
