@@ -13,6 +13,7 @@
 - BNB Bridge (LayerZero) - [`0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355`](https://etherscan.io/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355#code)
 - KAVA Bridge (LayerZero) - [`0x3C8D2A033131551a3f09E7b5c07DB01d547311CC`](https://etherscan.io/address/0x3C8D2A033131551a3f09E7b5c07DB01d547311CC#code)
 - S Bridge (LayerZero)- [`0x5A537a46D780B1C70138aB98eDce69e7a53177ba`](https://etherscan.io/address/0x5A537a46D780B1C70138aB98eDce69e7a53177ba#code)
+- Etherlink (LayerZero) - [`0xFF0871601158e506338967aB8C19fB59d8d5cAB2`](https://etherscan.io/address/0xFF0871601158e506338967aB8C19fB59d8d5cAB2#code)
 <!-- - Polygon Bridge (LayerZero) - [`0x708eA72651cDE801979d0305A6b88F9E4d6FC6Cc`](https://etherscan.io/address/0x708eA72651cDE801979d0305A6b88F9E4d6FC6Cc#code) -->
 
 #### crvUSD Bridges
@@ -21,7 +22,8 @@
 - BNB Bridge (LayerZero) - [`0x0A92Fd5271dB1C41564BD01ef6b1a75fC1db4d4f`](https://etherscan.io/address/0x0A92Fd5271dB1C41564BD01ef6b1a75fC1db4d4f#code)
 - FTM Bridge (LayerZero) - [`0x76EAfda658C54548B460B3f190386699DE3827d8`](https://etherscan.io/address/0x76EAfda658C54548B460B3f190386699DE3827d8#code)
 - KAVA Bridge (LayerZero) - [`0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc`](https://etherscan.io/address/0x1C4e4553F95C28bc529233Cc35D550befE7B83Fc#code)
-- S Bridge (LayerZero)- [`0xf6F07B393e4cEE82EFBcD502Db2903f28aA0472e`](https://etherscan.io/address/0xf6F07B393e4cEE82EFBcD502Db2903f28aA0472e#code)
+- S Bridge (LayerZero) - [`0xf6F07B393e4cEE82EFBcD502Db2903f28aA0472e`](https://etherscan.io/address/0xf6F07B393e4cEE82EFBcD502Db2903f28aA0472e#code)
+- Etherlink (LayerZero) - [`0xE9670C9B8bd3e2824aECaAB346B1B4392e0c26b3`](https://etherscan.io/address/0xE9670C9B8bd3e2824aECaAB346B1B4392e0c26b3#code)
 <!-- - Polygon Bridge (LayerZero) - [`0x4782965BB280A8A6CA7dAEB31BEb25E181F66994`](https://etherscan.io/address/0x4782965BB280A8A6CA7dAEB31BEb25E181F66994#code) -->
 
 #### scrvUSD Bridges
@@ -31,6 +33,7 @@
 - FTM Bridge (LayerZero) - [`0x08132eA9b02750E118cF5F5C640B7c46A8E638E8`](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8#code)
 - S Bridge (LayerZero) - [`0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C`](https://etherscan.io/address/0x6F8012b70ba1fb7F40873CD7f1b03c6fb5bf666C#code)
 - XDC Bridge (LayerZero) - [`0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0`](https://etherscan.com/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0#code)
+- Etherlink (LayerZero) - [`0x2E16150df237F938cc70730895dE33eb45594419`](https://etherscan.com/address/0x2E16150df237F938cc70730895dE33eb45594419#code)
 
 #### Keepers (Block Hash Sender)
 
@@ -135,6 +138,22 @@
 
 - Minter (SCRVUSD) - [`0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5`](https://xdcscan.com/address/0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5#code)
 - Token (SCRVUSD) - [`0x3d8EADb739D1Ef95dd53D718e4810721837c69c1`](https://xdcscan.org/address/0x3d8EADb739D1Ef95dd53D718e4810721837c69c1#code)
+
+### Etherlink
+
+- CRV ETH Bridge (LayerZero) - [`0xFF0871601158e506338967aB8C19fB59d8d5cAB2`](https://explorer.etherlink.com/address/0xFF0871601158e506338967aB8C19fB59d8d5cAB2)
+- crvUSD ETH Bridge (LayerZero) - [`0xE9670C9B8bd3e2824aECaAB346B1B4392e0c26b3`](https://explorer.etherlink.com/address/0xE9670C9B8bd3e2824aECaAB346B1B4392e0c26b3)
+- scrvUSD ETH Bridge (LayerZero) - [`0x2E16150df237F938cc70730895dE33eb45594419`](https://explorer.etherlink.com/address/0x2E16150df237F938cc70730895dE33eb45594419)
+
+
+- Minter - [`0xbD2775B8eADaE81501898eB208715f0040E51882`](https://explorer.etherlink.com/address/0xbD2775B8eADaE81501898eB208715f0040E51882)
+- Minter (CRVUSD) - [`0x4C62AC3F6088E882C9B2a315056bc298D22128bd`](https://explorer.etherlink.com/address/0x4C62AC3F6088E882C9B2a315056bc298D22128bd)
+- Minter (SCRVUSD) - [`0x5bcA7dDF1bcccB2eE8e46c56bfc9d3CDC77262bC`](https://explorer.etherlink.com/address/0x5bcA7dDF1bcccB2eE8e46c56bfc9d3CDC77262bC)
+- Token (CRV) - [`0x004A476B5B76738E34c86C7144554B9d34402F13`](https://explorer.etherlink.com/address/0x004A476B5B76738E34c86C7144554B9d34402F13)
+- Token (CRVUSD) - [`0x0094Ad026643994c8fB2136ec912D508B15fe0E5`](https://explorer.etherlink.com/address/0x0094Ad026643994c8fB2136ec912D508B15fe0E5)
+- Token (SCRVUSD) - [`0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8`](https://explorer.etherlink.com/address/0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8)
+- Gauge Type Oracle - [`0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5`](https://explorer.etherlink.com/address/0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5)
+- Gauge Type Verifier - [`0x070A5C8a99002F50C18B52B90e938BC477611b16`](https://explorer.etherlink.com/address/0x070A5C8a99002F50C18B52B90e938BC477611b16)
 
 ### Polygon
 
